@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plano de Auditoria - Separação Rotativo - Grupo Krona</title>
+    <title>Plano de Auditoria - Checkout e Separação Rotativo - Grupo Krona</title>
     <style>
         :root {
             --krona-blue: #003865;
@@ -534,8 +534,8 @@
 
 <div class="container">
     <div class="header">
-        <h1>Plano de Auditoria - Separação Rotativo</h1>
-        <p>Registro de auditoria de qualidade no processo de separação rotativo</p>
+        <h1>Plano de Auditoria - Checkout e Separação Rotativo</h1>
+        <p>Registro de auditoria de qualidade nos processos de separação e checkout</p>
     </div>
 
     <!-- Banner de Rascunho Restaurado -->
@@ -624,46 +624,80 @@
                 <span id="scorePreviewBadge" class="score-badge">100%</span>
             </div>
             <div class="score-preview" style="margin-top: -6px;">
-                <span>Score Expedição:</span>
+                <span>Score Conferente:</span>
+                <span id="scoreConferentePreviewBadge" class="score-badge">N/A</span>
+                <span style="margin-left: 16px;">Score Expedição:</span>
                 <span id="scoreExpedicaoPreviewBadge" class="score-badge">N/A</span>
             </div>
 
             <div class="audit-item">
-                <label for="aramadoOrganizado">1. Aramados organizados para embarque? (Criticidade 3)</label>
-                <select id="aramadoOrganizado" name="aramadoOrganizado" class="behavioral-field" required>
+                <label for="carrinhoOrganizado">1. Carrinho organizado após separação? (Criticidade 2)</label>
+                <select id="carrinhoOrganizado" name="carrinhoOrganizado" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                     <option value="N/A">N/A</option>
                 </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="embalagemLacrada">2. Embalagem devidamente lacrada e etiquetada? (Criticidade 2)</label>
-                <select id="embalagemLacrada" name="embalagemLacrada" class="behavioral-field" required>
+                <label for="carrinhoOrganizadoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="carrinhoOrganizadoResp" name="carrinhoOrganizadoResp" class="behavioral-resp-field">
                     <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
                     <option value="N/A">N/A</option>
                 </select>
             </div>
 
             <div class="audit-item">
-                <label for="caixasRafiasLacradas">3. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada? (Criticidade 2)</label>
-                <select id="caixasRafiasLacradas" name="caixasRafiasLacradas" class="behavioral-field" required>
+                <label for="caixasLacradas">2. Embalagem devidamente lacrada e etiquetada? (Criticidade 2)</label>
+                <select id="caixasLacradas" name="caixasLacradas" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                     <option value="N/A">N/A</option>
                 </select>
+                <label for="caixasLacradasResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="caixasLacradasResp" name="caixasLacradasResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
             </div>
 
             <div class="audit-item">
-                <label for="caixasRafiasConservacao">4. Caixas/Ráfias/Rolos em bom estado de conservação? (Criticidade 1)</label>
-                <select id="caixasRafiasConservacao" name="caixasRafiasConservacao" class="behavioral-field" required>
+                <label for="caixaSacoConservacao">3. Embalagem em bom estado de conservação? (Criticidade 1)</label>
+                <select id="caixaSacoConservacao" name="caixaSacoConservacao" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="caixaSacoConservacaoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="caixaSacoConservacaoResp" name="caixaSacoConservacaoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="lojinhaSeparada">4. Lojinha separada na caixa? (Criticidade 1)</label>
+                <select id="lojinhaSeparada" name="lojinhaSeparada" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="lojinhaSeparadaResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="lojinhaSeparadaResp" name="lojinhaSeparadaResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
                     <option value="N/A">N/A</option>
                 </select>
             </div>
@@ -676,44 +710,192 @@
                     <option value="Não">Não</option>
                     <option value="N/A">N/A</option>
                 </select>
+                <label for="placaSeparacaoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="placaSeparacaoResp" name="placaSeparacaoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
             </div>
 
             <div class="audit-item">
-                <label for="quantidadeAgrupada">6. A quantidade total do item estava agrupada? (Criticidade 2)</label>
+                <label for="bipouUmCodigo">6. Conferente bipou um código por vez? (Criticidade 3)</label>
+                <select id="bipouUmCodigo" name="bipouUmCodigo" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="bipouUmCodigoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="bipouUmCodigoResp" name="bipouUmCodigoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="limiteItensVolume">7. Limite de itens por volume respeitada? (Criticidade 3)</label>
+                <select id="limiteItensVolume" name="limiteItensVolume" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="limiteItensVolumeResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="limiteItensVolumeResp" name="limiteItensVolumeResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="placaCheckout">8. Placa de identificação preenchida corretamente no checkout? (Criticidade 3)</label>
+                <select id="placaCheckout" name="placaCheckout" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="placaCheckoutResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="placaCheckoutResp" name="placaCheckoutResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="aramadoOrganizado">9. Aramado organizado para embarque? (Criticidade 3)</label>
+                <select id="aramadoOrganizado" name="aramadoOrganizado" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="aramadoOrganizadoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="aramadoOrganizadoResp" name="aramadoOrganizadoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="quantidadeAgrupada">10. A quantidade total do item estava agrupada? (Criticidade 2)</label>
                 <select id="quantidadeAgrupada" name="quantidadeAgrupada" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                     <option value="N/A">N/A</option>
                 </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="procedimentoPadrao">7. Conferente seguiu o procedimento padrão definido pela Krona? (Criticidade 3)</label>
-                <select id="procedimentoPadrao" name="procedimentoPadrao" class="behavioral-field" required>
+                <label for="quantidadeAgrupadaResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="quantidadeAgrupadaResp" name="quantidadeAgrupadaResp" class="behavioral-resp-field">
                     <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
                     <option value="N/A">N/A</option>
                 </select>
             </div>
 
             <div class="audit-item">
-                <label for="conversaParalela">8. Conferente se distraiu em conversa paralela durante o processo? (Criticidade 3)</label>
+                <label for="caixasRafiasLacradas">11. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada? (Criticidade 2)</label>
+                <select id="caixasRafiasLacradas" name="caixasRafiasLacradas" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="caixasRafiasLacradasResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="caixasRafiasLacradasResp" name="caixasRafiasLacradasResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="caixasRafiasConservacao">12. Caixas/Ráfias/Rolos em bom estado de conservação? (Criticidade 1)</label>
+                <select id="caixasRafiasConservacao" name="caixasRafiasConservacao" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="caixasRafiasConservacaoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="caixasRafiasConservacaoResp" name="caixasRafiasConservacaoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="quantidadeAuditadaCorreta">13. A quantidade dos itens auditados estava correta? (Criticidade 4)</label>
+                <select id="quantidadeAuditadaCorreta" name="quantidadeAuditadaCorreta" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="quantidadeAuditadaCorretaResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="quantidadeAuditadaCorretaResp" name="quantidadeAuditadaCorretaResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+
+            <div class="audit-item">
+                <label for="conversaParalela">14. Conferente se distraiu em conversa paralela durante o processo? (Criticidade 3)</label>
                 <select id="conversaParalela" name="conversaParalela" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
                     <option value="N/A">N/A</option>
                 </select>
+                <label for="conversaParalelaResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="conversaParalelaResp" name="conversaParalelaResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
+                    <option value="N/A">N/A</option>
+                </select>
             </div>
 
             <div class="audit-item">
-                <label for="quantidadeAuditadaCorreta">9. A quantidade dos itens auditados estava correta? (Criticidade 4)</label>
-                <select id="quantidadeAuditadaCorreta" name="quantidadeAuditadaCorreta" class="behavioral-field" required>
+                <label for="procedimentoPadrao">15. Conferente seguiu o procedimento padrão definido pela Krona? (Criticidade 3)</label>
+                <select id="procedimentoPadrao" name="procedimentoPadrao" class="behavioral-field" required>
                     <option value="">Selecione...</option>
                     <option value="Sim">Sim</option>
                     <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+                <label for="procedimentoPadraoResp" class="resp-label">Responsável pelo resultado:</label>
+                <select id="procedimentoPadraoResp" name="procedimentoPadraoResp" class="behavioral-resp-field">
+                    <option value="">Selecione...</option>
+                    <option value="Conferente">Conferente</option>
+                    <option value="Expedição">Expedição</option>
+                    <option value="Ambos">Ambos</option>
                     <option value="N/A">N/A</option>
                 </select>
             </div>
@@ -786,8 +968,18 @@
 <script>
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby2zdBKUB4VSwBkhCPW4YTBi6iDb9I8-FGeydDoH-ITRePzg1lxHX5FcKV2b8YPgjDz/exec';
 
-    const MOTIVOS_MACRO = ["Falta de itens", "Avaria", "Furo de estoque", "Troca de itens", "Sobra de itens", "Colagem incorreta", "Outro"];
-    const MOTIVOS_MICRO = ["Etiqueta errada", "Checkout montado errado", "Faltando itens", "Tubos avariados", "Material sobrando", "Erro de produção", "Sobrando itens", "Corte virtual", "Material trocado", "Colagem incorreta Zona 05", "Colagem incorreta Zona 06", "Outro"];
+    const MOTIVOS_DIVERGENCIA = {
+        "Falta de itens": ["Item não separado", "Quantidade divergente", "Caixa incompleta", "Duas etiquetas na mesma ráfia", "Outro - Digitar"],
+        "Avaria": ["Caixa amassada", "Produto trincado", "Embalagem rasgada", "Ráfia aberta", "Outro - Digitar"],
+        "Furo de estoque": ["Saldo inconsistente no sistema", "Item sem estoque físico", "Corte de item não informado", "Outro - Digitar"],
+        "Troca de itens": ["Código errado", "Item substituído sem autorização", "Outro - Digitar"],
+        "Sobra de itens": ["Item extra não solicitado", "Duplicidade de separação", "Outro - Digitar"],
+        "Colagem incorreta": ["Etiqueta trocada", "Etiqueta ilegível", "Outro - Digitar"],
+        "Montagem": ["Montagem incorreta checkout", "Outro - Digitar"],
+        "Padronização": ["Carga misturada", "Outro - Digitar"],
+        "Outro - Digitar": ["Outro - Digitar"]
+    };
+    const MOTIVOS_MACRO = Object.keys(MOTIVOS_DIVERGENCIA);
     const LISTA_COLABORADORES = ["Aline", "Délio", "Edilson", "Edson", "Eduardo", "Eduardo P.", "Elton", "Fabiano", "Felipe", "Fernando", "Gabriel", "Gustavo", "Igor", "Ismael", "Jaderson", "Juliano", "Kamila", "Luiz Carlos da Rocha", "Marlon", "Paulo Roberto", "Renato", "Ruben Martinez", "Taberton", "Thallys", "Vagnel", "Vanusa"];
 
     let selectedAuditPhotos = [];
@@ -845,7 +1037,7 @@
     }
 
     // Chave usada para salvar o rascunho da auditoria em andamento
-    const DRAFT_STORAGE_KEY = 'auditoriaSeparacaoRascunhoEmAndamento';
+    const DRAFT_STORAGE_KEY = 'auditoriaRascunhoEmAndamento';
 
     // Limites e configuração de fotos da auditoria
     const MAX_FOTOS_POR_AUDITORIA = 30;
@@ -1065,6 +1257,27 @@
     // Adicionar Linha de Divergência
     let divIdCounter = 0;
 
+    // Preenche o select "Motivo Micro" de acordo com o Motivo Macro selecionado na mesma linha.
+    // Se um valor for passado, tenta selecioná-lo após montar as opções (usado ao restaurar rascunho).
+    function atualizarOpcoesMicro(row, valorSelecionado) {
+        const selectMacro = row.querySelector('.select-macro');
+        const selectMicro = row.querySelector('.select-micro');
+        const macro = selectMacro.value;
+        const opcoesMicro = MOTIVOS_DIVERGENCIA[macro] || [];
+
+        if (!macro) {
+            selectMicro.innerHTML = '<option value="">Selecione o Motivo Macro primeiro...</option>';
+            return;
+        }
+
+        selectMicro.innerHTML = '<option value="">Motivo detalhado (Selecione...)</option>' +
+            opcoesMicro.map(m => `<option value="${m}">${m}</option>`).join('');
+
+        if (valorSelecionado) {
+            selectMicro.value = valorSelecionado;
+        }
+    }
+
     function addDivergenciaRow() {
         const container = document.getElementById('divergenciasContainer');
         const div = document.createElement('div');
@@ -1094,15 +1307,18 @@
                 ${MOTIVOS_MACRO.map(m => `<option value="${m}">${m}</option>`).join('')}
             </select>
             <select class="select-micro" name="motivoMicro">
-                <option value="">Motivo Micro (Causa-raiz)...</option>
-                ${MOTIVOS_MICRO.map(m => `<option value="${m}">${m}</option>`).join('')}
+                <option value="">Selecione o Motivo Macro primeiro...</option>
             </select>
             <button type="button" class="btn-remove" onclick="removeDivergenciaRow(this)">X</button>
         `;
         container.appendChild(div);
 
         // Mantém as opções do Plano de Ação sincronizadas com as divergências existentes
-        div.querySelector('.select-macro').addEventListener('change', () => { refreshPlanoAcaoSelects(); salvarRascunho(); });
+        div.querySelector('.select-macro').addEventListener('change', function () {
+            atualizarOpcoesMicro(div, '');
+            refreshPlanoAcaoSelects();
+            salvarRascunho();
+        });
         div.querySelector('.select-micro').addEventListener('change', salvarRascunho);
         div.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', salvarRascunho));
         div.querySelector('.select-divergencia-responsavel').addEventListener('change', () => { calculateLiveScore(); salvarRascunho(); });
@@ -1247,15 +1463,21 @@
 
     // Cálculo em Tempo Real do Score Comportamental
     const behavioralFields = [
-        { id: 'aramadoOrganizado', weight: 3, label: '1. Aramados organizados para embarque?', weightLabel: 'Criticidade 3' },
-        { id: 'embalagemLacrada', weight: 2, label: '2. Embalagem devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
-        { id: 'caixasRafiasLacradas', weight: 2, label: '3. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
-        { id: 'caixasRafiasConservacao', weight: 1, label: '4. Caixas/Ráfias/Rolos em bom estado de conservação?', weightLabel: 'Criticidade 1' },
+        { id: 'carrinhoOrganizado', weight: 2, label: '1. Carrinho organizado após separação?', weightLabel: 'Criticidade 2' },
+        { id: 'caixasLacradas', weight: 2, label: '2. Embalagem devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
+        { id: 'caixaSacoConservacao', weight: 1, label: '3. Embalagem em bom estado de conservação?', weightLabel: 'Criticidade 1' },
+        { id: 'lojinhaSeparada', weight: 1, label: '4. Lojinha separada na caixa?', weightLabel: 'Criticidade 1' },
         { id: 'placaSeparacao', weight: 3, label: '5. Placa de identificação preenchida corretamente na separação?', weightLabel: 'Criticidade 3' },
-        { id: 'quantidadeAgrupada', weight: 2, label: '6. A quantidade total do item estava agrupada?', weightLabel: 'Criticidade 2' },
-        { id: 'procedimentoPadrao', weight: 3, label: '7. Conferente seguiu o procedimento padrão definido pela Krona?', weightLabel: 'Criticidade 3' },
-        { id: 'conversaParalela', weight: 3, label: '8. Conferente se distraiu em conversa paralela durante o processo?', weightLabel: 'Criticidade 3' },
-        { id: 'quantidadeAuditadaCorreta', weight: 4, label: '9. A quantidade dos itens auditados estava correta?', weightLabel: 'Criticidade 4' }
+        { id: 'bipouUmCodigo', weight: 3, label: '6. Conferente bipou um código por vez?', weightLabel: 'Criticidade 3' },
+        { id: 'limiteItensVolume', weight: 3, label: '7. Limite de itens por volume respeitada?', weightLabel: 'Criticidade 3' },
+        { id: 'placaCheckout', weight: 3, label: '8. Placa de identificação preenchida corretamente no checkout?', weightLabel: 'Criticidade 3' },
+        { id: 'aramadoOrganizado', weight: 3, label: '9. Aramado organizado para embarque?', weightLabel: 'Criticidade 3' },
+        { id: 'quantidadeAgrupada', weight: 2, label: '10. A quantidade total do item estava agrupada?', weightLabel: 'Criticidade 2' },
+        { id: 'caixasRafiasLacradas', weight: 2, label: '11. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
+        { id: 'caixasRafiasConservacao', weight: 1, label: '12. Caixas/Ráfias/Rolos em bom estado de conservação?', weightLabel: 'Criticidade 1' },
+        { id: 'quantidadeAuditadaCorreta', weight: 4, label: '13. A quantidade dos itens auditados estava correta?', weightLabel: 'Criticidade 4' },
+        { id: 'conversaParalela', weight: 3, label: '14. Conferente se distraiu em conversa paralela durante o processo?', weightLabel: 'Criticidade 3' },
+        { id: 'procedimentoPadrao', weight: 3, label: '15. Conferente seguiu o procedimento padrão definido pela Krona?', weightLabel: 'Criticidade 3' }
     ];
 
     const PESO_PENALIDADE_DIVERGENCIA = 4;
@@ -1271,20 +1493,23 @@
             .filter(v => v !== '');
     }
 
-    // Todas as perguntas desta auditoria são direcionadas à Expedição, então o
-    // Score Expedição considera todos os itens do checklist (sem depender de um
-    // campo de "responsável pelo resultado" por pergunta). A penalidade por
-    // divergência só entra se a divergência foi atribuída à Expedição (ou "Ambos").
-    function calcularScoreExpedicao() {
+    function calcularScorePorResponsavel(responsavelAlvo) {
         let obtido = 0, maximo = 0;
         behavioralFields.forEach(field => {
             const val = document.getElementById(field.id) ? document.getElementById(field.id).value : '';
+            const respEl = document.getElementById(field.id + 'Resp');
+            const resp = respEl ? respEl.value : '';
+            if (val === 'N/A' || resp === 'N/A' || resp === '') return;
+            const contaParaAlvo = resp === 'Ambos' || resp === responsavelAlvo;
+            if (!contaParaAlvo) return;
             if (val === 'Sim') { obtido += field.weight; maximo += field.weight; }
             else if (val === 'Não') { maximo += field.weight; }
         });
 
+        // Penalidade por divergência (Peso 4) — uma penalidade por divergência que
+        // tenha esse responsável (ou "Ambos"), soma no máximo (não no obtido).
         listarResponsaveisDivergencias().forEach(resp => {
-            if (resp !== 'N/A' && (resp === 'Ambos' || resp === 'Expedição')) {
+            if (resp !== 'N/A' && (resp === 'Ambos' || resp === responsavelAlvo)) {
                 maximo += PESO_PENALIDADE_DIVERGENCIA;
             }
         });
@@ -1338,7 +1563,8 @@
             else badge.style.backgroundColor = '#dc2626';
         }
 
-        atualizarBadgeScore('scoreExpedicaoPreviewBadge', calcularScoreExpedicao());
+        atualizarBadgeScore('scoreConferentePreviewBadge', calcularScorePorResponsavel('Conferente'));
+        atualizarBadgeScore('scoreExpedicaoPreviewBadge', calcularScorePorResponsavel('Expedição'));
     }
 
     document.querySelectorAll('.behavioral-field, .behavioral-resp-field').forEach(select => {
@@ -1358,6 +1584,7 @@
             if (isNaN(n)) return '#64748b';
             return n >= 90 ? '#16a34a' : (n >= 70 ? '#d97706' : '#dc2626');
         }
+        const corScoreConferente = corParaScoreTexto(data.scoreConferentePct);
         const corScoreExpedicao = corParaScoreTexto(data.scoreExpedicaoPct);
 
         const reportHtml = `
@@ -1443,6 +1670,10 @@
                 </div>
 
                 <div class="score-container" style="margin-top: -10px;">
+                    <div class="score-box" style="background: ${corScoreConferente} !important;">
+                        <span>Score Conferente</span>
+                        <h2>${data.scoreConferentePct || 'N/A'}</h2>
+                    </div>
                     <div class="score-box" style="background: ${corScoreExpedicao} !important;">
                         <span>Score Expedição</span>
                         <h2>${data.scoreExpedicaoPct || 'N/A'}</h2>
@@ -1517,13 +1748,15 @@
                             <th>Item Avaliado</th>
                             <th>Criticidade</th>
                             <th>Resposta</th>
+                            <th>Responsável</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${behavioralFields.map(field => {
                             const resposta = data[field.id] || '-';
+                            const responsavel = data[field.id + 'Resp'] || '-';
                             const rowClass = resposta === 'Não' ? 'row-nao' : (resposta === 'Sim' ? 'row-sim' : '');
-                            return `<tr class="${rowClass}"><td>${field.label}</td><td>${field.weightLabel}</td><td><strong>${resposta}</strong></td></tr>`;
+                            return `<tr class="${rowClass}"><td>${field.label}</td><td>${field.weightLabel}</td><td><strong>${resposta}</strong></td><td>${responsavel}</td></tr>`;
                         }).join('')}
                     </tbody>
                 </table>
@@ -1715,7 +1948,7 @@
                 if (radio) radio.checked = true;
             }
             row.querySelector('.select-macro').value = d.macro || '';
-            row.querySelector('.select-micro').value = d.micro || '';
+            atualizarOpcoesMicro(row, d.micro || '');
         });
         divIdCounter = rascunho.divIdCounterSnapshot || divIdCounter;
         refreshPlanoAcaoSelects();
@@ -1942,27 +2175,33 @@
         let scorePct = totalMaxWeight > 0 ? Math.round((totalObtainedWeight / totalMaxWeight) * 100) : null;
         data.scoreComportamentalPct = scorePct !== null ? scorePct + '%' : 'N/A (todos os itens marcados como não aplicável)';
 
-        // Cálculo do Score Expedição — todas as perguntas desta auditoria são
-        // direcionadas à Expedição, então o score considera todos os itens do
-        // checklist. A penalidade por divergência só entra se a divergência foi
-        // atribuída à Expedição (ou "Ambos").
-        function calcularScoreExpedicaoFinal() {
+        // Cálculo dos scores por responsável (Conferente / Expedição), com base
+        // no responsável indicado pelo auditor em cada item do checklist
+        function calcularScorePorResponsavelFinal(responsavelAlvo) {
             let obtido = 0, maximo = 0;
             behavioralFields.forEach(field => {
                 const val = data[field.id];
+                const resp = data[field.id + 'Resp'];
+                if (val === 'N/A' || !resp || resp === 'N/A') return;
+                const contaParaAlvo = resp === 'Ambos' || resp === responsavelAlvo;
+                if (!contaParaAlvo) return;
                 if (val === 'Sim') { obtido += field.weight; maximo += field.weight; }
                 else if (val === 'Não') { maximo += field.weight; }
             });
 
+            // Penalidade por divergência (Peso 4) — uma penalidade por divergência que
+            // tenha esse responsável (ou "Ambos"), soma no máximo (não no obtido).
             divergenciasComResponsavel.forEach(d => {
-                if (d.responsavel !== 'N/A' && (d.responsavel === 'Ambos' || d.responsavel === 'Expedição')) {
+                if (d.responsavel !== 'N/A' && (d.responsavel === 'Ambos' || d.responsavel === responsavelAlvo)) {
                     maximo += PESO_PENALIDADE_DIVERGENCIA;
                 }
             });
 
             return maximo > 0 ? Math.round((obtido / maximo) * 100) : null;
         }
-        const scoreExpedicaoPct = calcularScoreExpedicaoFinal();
+        const scoreConferentePct = calcularScorePorResponsavelFinal('Conferente');
+        const scoreExpedicaoPct = calcularScorePorResponsavelFinal('Expedição');
+        data.scoreConferentePct = scoreConferentePct !== null ? scoreConferentePct + '%' : 'N/A';
         data.scoreExpedicaoPct = scoreExpedicaoPct !== null ? scoreExpedicaoPct + '%' : 'N/A';
 
         try {
