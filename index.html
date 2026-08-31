@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plano de Auditoria - Checkout e Separação Rotativo - Grupo Krona</title>
+    <title>Central de Auditorias - Grupo Krona</title>
     <style>
         :root {
             --krona-blue: #003865;
@@ -528,315 +528,206 @@
         .btn-clear-draft:hover {
             background: #fee2e2;
         }
+
+        /* Tela Inicial - Seleção de Área de Auditoria */
+        .home-container {
+            width: 100%;
+            max-width: 850px;
+            margin-bottom: 40px;
+        }
+
+        .home-header {
+            background-color: var(--krona-blue);
+            color: #ffffff;
+            padding: 40px 24px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 4px solid var(--krona-blue-light);
+        }
+
+        .home-header h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .home-header p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .area-grid {
+            background: var(--card-bg);
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 4px 16px rgba(0, 56, 101, 0.12);
+            padding: 32px 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 560px) {
+            .area-grid { grid-template-columns: 1fr; }
+        }
+
+        .area-card {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 28px 16px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--krona-blue);
+            transition: all 0.15s ease-in-out;
+        }
+
+        .area-card:hover {
+            border-color: var(--krona-blue-light);
+            background: #eef4fa;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 56, 101, 0.15);
+        }
+
+        .area-card .area-icon {
+            display: block;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-voltar-inicio {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.5);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .btn-voltar-inicio:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .behavioral-placeholder {
+            padding: 18px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* Blocos de auditoria repetíveis (um por pedido/carga auditado) */
+        .bloco-auditoria {
+            border: 2px solid var(--krona-blue-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 24px;
+            background: #fbfdff;
+        }
+
+        .bloco-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .bloco-header strong {
+            color: var(--krona-blue);
+            font-size: 1.05rem;
+        }
+
+        .btn-remove-bloco {
+            background: #ffffff;
+            color: var(--danger-color);
+            border: 1px solid #fecaca;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-remove-bloco:hover {
+            background: #fee2e2;
+        }
+
+        .btn-finalizar-plano {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-iniciar-adicionar {
+            background-color: var(--krona-blue-light);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 16px;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<!-- TELA INICIAL - Seleção da Área de Auditoria -->
+<div class="home-container" id="telaInicial">
+    <div class="home-header">
+        <h1>GRUPO KRONA</h1>
+        <p>Selecione a área que deseja auditar</p>
+    </div>
+    <div class="area-grid">
+        <div class="area-card" onclick="abrirAuditoria('preparacao')">
+            Preparação
+        </div>
+        <div class="area-card" onclick="abrirAuditoria('checkout')">
+            Checkout
+        </div>
+        <div class="area-card" onclick="abrirAuditoria('separacao')">
+            Separação
+        </div>
+        <div class="area-card" onclick="abrirAuditoria('tubos')">
+            Tubos
+        </div>
+    </div>
+</div>
+
+<!-- TELA DE AUDITORIA (aberta após selecionar a área) -->
+<div class="container" id="telaAuditoria" style="display:none;">
     <div class="header">
-        <h1>Plano de Auditoria - Checkout e Separação Rotativo</h1>
-        <p>Registro de auditoria de qualidade nos processos de separação e checkout</p>
+        <button type="button" class="btn-voltar-inicio" onclick="voltarInicio()">← Voltar para seleção de área</button>
+        <h1 id="tituloAuditoria">Plano de Auditoria</h1>
+        <p id="subtituloAuditoria">Registro de auditoria de qualidade</p>
     </div>
 
-    <!-- Banner de Rascunho Restaurado -->
-    <div class="draft-banner" id="draftBanner" style="display: none;">
-        <div>
-            <strong>📥 Auditoria em andamento restaurada</strong>
-            <div class="draft-banner-text" id="draftBannerText"></div>
-        </div>
-        <button type="button" class="btn-clear-draft" onclick="limparRascunho()">🗑 Descartar e começar do zero</button>
-    </div>
+    <div style="padding: 24px;">
+        <div id="blocosContainer"></div>
 
-    <!-- Auditorias pendentes salvas na nuvem, disponíveis para continuar de qualquer aparelho -->
-    <div id="pendentesNuvemContainer" style="display:none; margin-bottom: 12px;"></div>
+        <button type="button" class="btn-iniciar-adicionar" id="btnAdicionarBloco" onclick="adicionarBloco()">▶ Iniciar Auditoria</button>
 
-    <!-- Barra com ID, Cronômetro e Botão de Início -->
-    <div class="audit-tracker-bar">
-        <div>ID Auditoria: <span id="auditIdDisplay" class="tracker-badge">---</span></div>
-        <div class="tracker-controls">
-            <button type="button" id="btnStartAudit" class="btn-start-audit" onclick="startAudit()">▶ Iniciar Auditoria</button>
-            <button type="button" id="btnSalvarNuvem" onclick="salvarProgressoNaNuvem()" style="display:none;">☁ Salvar progresso na nuvem</button>
-            <div>Tempo em Auditoria: <span id="timerDisplay" class="timer-badge">00:00:00</span></div>
+        <div id="finalizarWrapper" style="display:none;">
+            <button type="button" class="btn-finalizar-plano" id="btnFinalizarPlano" onclick="finalizarPlano()">Finalizar e Enviar Plano de Auditoria</button>
+            <div id="statusMessage" class="status-message"></div>
+            <div id="resultadosPlanoContainer" style="margin-top: 10px;"></div>
         </div>
     </div>
-    <div id="statusNuvemMsg" style="font-size: 11px; margin-top: 4px;"></div>
-
-    <form id="auditForm">
-        <!-- Campos Ocultos para envio -->
-        <input type="hidden" id="auditId" name="auditId">
-        <input type="hidden" id="tempoTotal" name="tempoTotal">
-        <input type="hidden" id="horaInicio" name="horaInicio">
-
-        <!-- Fieldset para desabilitar o formulário até o início da auditoria -->
-        <fieldset id="auditFields" disabled style="border: none; padding: 0; margin: 0;">
-            <!-- Informações Gerais -->
-            <div class="section-title">Informações Gerais</div>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="data">Data *</label>
-                    <input type="date" id="data" name="data" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="unidade">Unidade *</label>
-                    <select id="unidade" name="unidade" required>
-                        <option value="">Selecione...</option>
-                        <option value="Matriz">Matriz</option>
-                        <option value="Nordeste">Nordeste</option>
-                        <option value="Centro-Oeste">Centro-Oeste</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="turno">Turno *</label>
-                    <select id="turno" name="turno" required>
-                        <option value="">Selecione...</option>
-                        <option value="Turno 11">Turno 11</option>
-                        <option value="Turno 21">Turno 21</option>
-                        <option value="Turno 31">Turno 31</option>
-                        <option value="Turno 16">Turno 16</option>
-                        <option value="Turno 26">Turno 26</option>
-                        <option value="Turno 36">Turno 36</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="auditorResponsavel">Responsável *</label>
-                    <select id="auditorResponsavel" name="auditorResponsavel" required>
-                        <option value="">Selecione...</option>
-                        <option value="Lucas">Lucas</option>
-                        <option value="Lucca">Lucca</option>
-                        <option value="Carlos Eduardo">Carlos Eduardo</option>
-                        <option value="__outro__">Outro (digitar)</option>
-                    </select>
-                    <input type="text" id="auditorResponsavelOutro" placeholder="Digite o nome do responsável..." style="display: none; margin-top: 8px;">
-                </div>
-            </div>
-
-            <!-- Análise Comportamental -->
-            <div class="section-title">Análise Comportamental</div>
-
-            <div class="score-preview">
-                <span>Score Geral Estimado:</span>
-                <span id="scorePreviewBadge" class="score-badge">100%</span>
-            </div>
-
-            <div class="audit-item">
-                <label for="carrinhoOrganizado">1. Carrinho organizado após separação? (Criticidade 2)</label>
-                <select id="carrinhoOrganizado" name="carrinhoOrganizado" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="caixasLacradas">2. Embalagem devidamente lacrada e etiquetada? (Criticidade 2)</label>
-                <select id="caixasLacradas" name="caixasLacradas" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="caixaSacoConservacao">3. Embalagem em bom estado de conservação? (Criticidade 1)</label>
-                <select id="caixaSacoConservacao" name="caixaSacoConservacao" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="lojinhaSeparada">4. Lojinha separada na caixa? (Criticidade 1)</label>
-                <select id="lojinhaSeparada" name="lojinhaSeparada" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="placaSeparacao">5. Placa de identificação preenchida corretamente na separação? (Criticidade 3)</label>
-                <select id="placaSeparacao" name="placaSeparacao" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="bipouUmCodigo">6. Conferente bipou um código por vez? (Criticidade 3)</label>
-                <select id="bipouUmCodigo" name="bipouUmCodigo" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="limiteItensVolume">7. Limite de itens por volume respeitada? (Criticidade 3)</label>
-                <select id="limiteItensVolume" name="limiteItensVolume" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="placaCheckout">8. Placa de identificação preenchida corretamente no checkout? (Criticidade 3)</label>
-                <select id="placaCheckout" name="placaCheckout" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="aramadoOrganizado">9. Aramado organizado para embarque? (Criticidade 3)</label>
-                <select id="aramadoOrganizado" name="aramadoOrganizado" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="quantidadeAgrupada">10. A quantidade total do item estava agrupada? (Criticidade 2)</label>
-                <select id="quantidadeAgrupada" name="quantidadeAgrupada" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="caixasRafiasLacradas">11. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada? (Criticidade 2)</label>
-                <select id="caixasRafiasLacradas" name="caixasRafiasLacradas" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="caixasRafiasConservacao">12. Caixas/Ráfias/Rolos em bom estado de conservação? (Criticidade 1)</label>
-                <select id="caixasRafiasConservacao" name="caixasRafiasConservacao" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="quantidadeAuditadaCorreta">13. A quantidade dos itens auditados estava correta? (Criticidade 4)</label>
-                <select id="quantidadeAuditadaCorreta" name="quantidadeAuditadaCorreta" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="conversaParalela">14. Conferente se distraiu em conversa paralela durante o processo? (Criticidade 3)</label>
-                <select id="conversaParalela" name="conversaParalela" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <div class="audit-item">
-                <label for="procedimentoPadrao">15. Conferente seguiu o procedimento padrão definido pela Krona? (Criticidade 3)</label>
-                <select id="procedimentoPadrao" name="procedimentoPadrao" class="behavioral-field" required>
-                    <option value="">Selecione...</option>
-                    <option value="Sim">Sim</option>
-                    <option value="Não">Não</option>
-                    <option value="N/A">N/A</option>
-                </select>
-            </div>
-
-            <!-- Observações do Auditor / Desvios Comportamentais -->
-            <div class="form-group full-width" style="margin-top: 15px;">
-                <label for="observacoesAuditor">Registro de desvios comportamentais / Observações do auditor responsável</label>
-                <textarea id="observacoesAuditor" name="observacoesAuditor" rows="4" placeholder="Descreva aqui observações ou desvios comportamentais identificados..."></textarea>
-            </div>
-
-            <!-- Auditoria possui divergência? -->
-            <div class="section-title">Auditoria possui divergência?</div>
-            
-            <div class="form-group">
-                <label>Auditoria possui divergência? *</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="divergencia" value="Sim"> Sim</label>
-                    <label><input type="radio" name="divergencia" value="Não" checked> Não</label>
-                </div>
-            </div>
-
-            <!-- Bloco Dinâmico exibido apenas se Divergência === Sim -->
-            <div id="secaoDivergenciasCompleta">
-                <div id="secaoMotivosDivergencia">
-                    <div style="font-weight: bold; color: var(--krona-blue); margin-bottom: 8px;">Motivos de Divergência</div>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Adicione os motivos encontrados durante a verificação.</p>
-
-                    <div id="divergenciasContainer"></div>
-                    <button type="button" class="btn-add" id="btnAddDivergencia">+ Adicionar Divergência</button>
-                </div>
-
-                <!-- Plano de Ação / Sugestão para Correção -->
-                <div class="section-title" style="margin-top: 20px;">Plano de Ação / Sugestão para Correção</div>
-                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Selecione a divergência apontada e descreva a sugestão para correção do erro.</p>
-                <div id="planosAcaoContainer"></div>
-                <button type="button" class="btn-add" id="btnAddPlanoAcao">+ Adicionar Plano de Ação</button>
-
-                <!-- Múltiplos Responsáveis -->
-                <div class="section-title" style="margin-top: 20px;">Responsáveis pelo Erro</div>
-                <div id="responsaveisContainer"></div>
-                <button type="button" class="btn-add" id="btnAddResponsavel">+ Adicionar Responsável</button>
-            </div>
-
-            <!-- CAMPO DE FOTOS DA AUDITORIA -->
-            <div class="form-group full-width" style="margin-top: 10px;">
-                <label>Fotos da Auditoria (Opcional)</label>
-                <label class="upload-area" for="auditPhotos">
-                    <div class="upload-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span class="upload-title">Anexar ou capturar fotos</span>
-                    <span class="upload-subtitle">Clique para selecionar ou usar a câmera (PNG, JPG, WEBP) — até 30 fotos por auditoria</span>
-                </label>
-                <input type="file" id="auditPhotos" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event)">
-                
-                <div id="photoPreviewGrid" class="photo-grid"></div>
-            </div>
-
-            <button type="submit" class="btn-submit" id="btnSubmit">Enviar Auditoria e Gerar Relatório PDF</button>
-        </fieldset>
-        
-        <div id="statusMessage" class="status-message"></div>
-        <div id="whatsappShareContainer" style="margin-top: 10px;"></div>
-    </form>
 </div>
 
 <script>
@@ -856,12 +747,9 @@
     const MOTIVOS_MACRO = Object.keys(MOTIVOS_DIVERGENCIA);
     const LISTA_COLABORADORES = ["Aline", "Délio", "Edilson", "Edson", "Eduardo", "Eduardo P.", "Elton", "Fabiano", "Felipe", "Fernando", "Gabriel", "Gustavo", "Igor", "Ismael", "Jaderson", "Juliano", "Kamila", "Luiz Carlos da Rocha", "Marlon", "Paulo Roberto", "Renato", "Ruben Martinez", "Taberton", "Thallys", "Vagnel", "Vanusa"];
 
-    let selectedAuditPhotos = [];
-    let auditStartTime = null;
-    let timerInterval = null;
+    const PESO_PENALIDADE_DIVERGENCIA = 4;
 
     // Fallback em memória para quando localStorage não estiver disponível
-    // (ex: arquivo aberto direto no celular via file://, modo privado, etc.)
     let memoryAuditSeq = 1;
     let storageAvailable = true;
 
@@ -907,10 +795,10 @@
     }
 
     if (!storageAvailable) {
-        console.warn('localStorage indisponível neste navegador/contexto. Usando contagem de auditoria em memória (será reiniciada se a página for recarregada). O autosave do rascunho também ficará desativado.');
+        console.warn('localStorage indisponível neste navegador/contexto. O autosave do rascunho ficará desativado.');
     }
 
-    // Chave usada para salvar o rascunho da auditoria em andamento
+    // Chave usada para salvar o rascunho do plano de auditoria em andamento (uma por área)
     const DRAFT_STORAGE_KEY = 'auditoriaRascunhoEmAndamento';
 
     // Limites e configuração de fotos da auditoria
@@ -927,102 +815,6 @@
             timeoutId = setTimeout(() => fn.apply(this, args), delayMs);
         };
     }
-
-    const salvarRascunhoDebounced = debounce(function() { salvarRascunho(); }, 800);
-
-    document.getElementById('data').valueAsDate = new Date();
-
-    // Pré-busca o próximo ID assim que a página carrega, para não deixar
-    // o usuário esperando na hora de clicar em "Iniciar Auditoria".
-    let auditIdPreCarregadoPromise = fetch(GOOGLE_SCRIPT_URL + '?action=novoId')
-        .then(resposta => {
-            if (!resposta.ok) throw new Error('Resposta não OK do servidor');
-            return resposta.json();
-        })
-        .then(json => {
-            if (!json || json.status !== 'success' || !json.auditId) {
-                throw new Error('Resposta inválida do servidor');
-            }
-            return json.auditId;
-        })
-        .catch(err => {
-            console.warn('Pré-carregamento do ID falhou, será tentado novamente ao iniciar a auditoria.', err);
-            return null;
-        });
-
-    // INICIAR AUDITORIA MANUALMENTE
-    async function startAudit() {
-        const btn = document.getElementById('btnStartAudit');
-        btn.disabled = true;
-        btn.textContent = '⏳ Gerando ID da auditoria...';
-
-        let auditId = await auditIdPreCarregadoPromise;
-
-        if (!auditId) {
-            // Pré-carregamento não deu certo (ex: página aberta há muito tempo, ou sem internet
-            // no momento do carregamento) — tenta buscar agora, na hora do clique.
-            try {
-                const resposta = await fetch(GOOGLE_SCRIPT_URL + '?action=novoId');
-                if (!resposta.ok) throw new Error('Resposta não OK do servidor');
-                const json = await resposta.json();
-                if (!json || json.status !== 'success' || !json.auditId) {
-                    throw new Error('Resposta inválida do servidor');
-                }
-                auditId = json.auditId;
-            } catch (err) {
-                // Sem internet ou servidor indisponível: usa a contagem local deste dispositivo
-                // como reserva, apenas para não travar o início da auditoria.
-                console.warn('Não foi possível obter o ID sequencial do servidor, usando contagem local como reserva.', err);
-                const currentYear = new Date().getFullYear();
-                const currentSeq = getAuditSeq();
-                const formattedSeq = String(currentSeq).padStart(4, '0');
-                auditId = `AUD${currentYear}/${formattedSeq}`;
-            }
-        }
-
-        document.getElementById('auditIdDisplay').textContent = auditId;
-        document.getElementById('auditId').value = auditId;
-
-        // Iniciar cronômetro
-        auditStartTime = new Date();
-        document.getElementById('horaInicio').value = auditStartTime.toLocaleTimeString('pt-BR');
-        
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(updateTimer, 1000);
-
-        // Habilitar campos do formulário
-        document.getElementById('auditFields').disabled = false;
-
-        // Atualizar estado do botão
-        btn.textContent = '⏱ Auditoria em Andamento';
-        btn.style.backgroundColor = '#64748b';
-        document.getElementById('btnSalvarNuvem').style.display = 'inline-block';
-        document.getElementById('pendentesNuvemContainer').style.display = 'none';
-
-        salvarRascunho();
-    }
-
-    function updateTimer() {
-        if (!auditStartTime) return;
-        const now = new Date();
-        const diffMs = now - auditStartTime;
-        
-        const seconds = Math.floor((diffMs / 1000) % 60);
-        const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
-        const hours = Math.floor(diffMs / (1000 * 60 * 60));
-
-        const timeStr = [
-            String(hours).padStart(2, '0'),
-            String(minutes).padStart(2, '0'),
-            String(seconds).padStart(2, '0')
-        ].join(':');
-
-        document.getElementById('timerDisplay').textContent = timeStr;
-        document.getElementById('tempoTotal').value = timeStr;
-    }
-
-    // Manipulação e Preview de Fotos
-    let photoIdCounter = 0;
 
     function comprimirImagem(file) {
         return new Promise((resolve, reject) => {
@@ -1054,85 +846,320 @@
         });
     }
 
-    async function handlePhotoUpload(event) {
-        const files = Array.from(event.target.files).filter(f => f.type.startsWith('image/'));
-        const grid = document.getElementById('photoPreviewGrid');
+    // ===== Configuração das áreas de auditoria e suas perguntas =====
+    // OBS: nenhuma criticidade foi informada para estas 10 perguntas, então todas
+    // entraram com peso 1 (igual). Me avise os pesos certos se quiser um score ponderado.
+    const PERGUNTAS_BASE = {
+        carrinhoOrganizado: { weight: 1, texto: 'Carrinho organizado após separação?' },
+        embalagemLacrada: { weight: 1, texto: 'Embalagem devidamente lacrada e etiquetada?' },
+        placaIdentificacao: { weight: 1, texto: 'Placa de identificação preenchida corretamente?' },
+        limiteItensVolume: { weight: 1, texto: 'Limite de itens por volume respeitada?' },
+        aramadoPalletOrganizado: { weight: 1, texto: 'Aramado/pallet organizado para embarque?' },
+        quantidadeAuditadaCorreta: { weight: 1, texto: 'A quantidade dos itens auditados estava correta?' },
+        caixasRafiasLacradas: { weight: 1, texto: 'Caixas/Ráfias/Rolos em bom estado e devidamente lacrada/etiquetada?' },
+        pickingSemTubosAvariados: { weight: 1, texto: 'Picking sem tubos avariados?' },
+        caminhaoSemTubosAvariados: { weight: 1, texto: 'Caminhão sem tubos avariados?' },
+        codigoBarraLegivel: { weight: 1, texto: 'Embalagens com código de barra legível via sistema?' }
+    };
 
-        if (selectedAuditPhotos.length >= MAX_FOTOS_POR_AUDITORIA) {
-            alert(`Limite de ${MAX_FOTOS_POR_AUDITORIA} fotos por auditoria atingido. Remova alguma foto antes de adicionar novas.`);
-            event.target.value = '';
-            return;
-        }
-
-        const espacoDisponivel = MAX_FOTOS_POR_AUDITORIA - selectedAuditPhotos.length;
-        const arquivosParaProcessar = files.slice(0, espacoDisponivel);
-        if (files.length > arquivosParaProcessar.length) {
-            alert(`Só é possível adicionar mais ${espacoDisponivel} foto(s) nesta auditoria (limite de ${MAX_FOTOS_POR_AUDITORIA}). As fotos extras selecionadas foram ignoradas.`);
-        }
-
-        for (const file of arquivosParaProcessar) {
-            try {
-                const base64Data = await comprimirImagem(file);
-                const photoId = 'photo_' + (photoIdCounter++) + '_' + Date.now();
-                selectedAuditPhotos.push({ id: photoId, src: base64Data, caption: '' });
-
-                const card = document.createElement('div');
-                card.className = 'photo-card';
-                card.dataset.photoId = photoId;
-                card.innerHTML = `
-                    <div class="photo-img-wrap">
-                        <img src="${base64Data}" alt="Foto Auditoria">
-                        <button type="button" class="remove-btn-photo" onclick="removeAuditPhoto('${photoId}')">&times;</button>
-                    </div>
-                    <input type="text" class="caption-input" placeholder="Ex: Item 3 / Divergência #1..." oninput="updatePhotoCaption('${photoId}', this.value)">
-                `;
-                grid.appendChild(card);
-                salvarRascunho();
-            } catch (err) {
-                console.error('Erro ao processar foto:', err);
-            }
-        }
-
-        event.target.value = '';
+    function montarPerguntas(ids) {
+        return ids.map((id, index) => ({
+            id,
+            weight: PERGUNTAS_BASE[id].weight,
+            label: (index + 1) + '. ' + PERGUNTAS_BASE[id].texto,
+            weightLabel: 'Peso ' + PERGUNTAS_BASE[id].weight
+        }));
     }
 
-    function removeAuditPhoto(photoId) {
-        selectedAuditPhotos = selectedAuditPhotos.filter(photo => photo.id !== photoId);
-        const card = document.querySelector(`.photo-card[data-photo-id="${photoId}"]`);
-        if (card) card.remove();
+    const AREAS_CONFIG = {
+        preparacao: {
+            label: 'Preparação',
+            subtitulo: 'Registro de auditoria de qualidade no processo de preparação',
+            questions: montarPerguntas(['carrinhoOrganizado', 'embalagemLacrada', 'placaIdentificacao', 'quantidadeAuditadaCorreta', 'codigoBarraLegivel'])
+        },
+        checkout: {
+            label: 'Checkout',
+            subtitulo: 'Registro de auditoria de qualidade no processo de checkout',
+            questions: montarPerguntas(['placaIdentificacao', 'limiteItensVolume', 'aramadoPalletOrganizado', 'quantidadeAuditadaCorreta', 'caixasRafiasLacradas'])
+        },
+        separacao: {
+            label: 'Separação',
+            subtitulo: 'Registro de auditoria de qualidade no processo de separação',
+            questions: montarPerguntas(['placaIdentificacao', 'aramadoPalletOrganizado', 'quantidadeAuditadaCorreta', 'caixasRafiasLacradas'])
+        },
+        tubos: {
+            label: 'Tubos',
+            subtitulo: 'Registro de auditoria de qualidade no processo de tubos',
+            questions: montarPerguntas(['pickingSemTubosAvariados', 'caminhaoSemTubosAvariados'])
+        }
+    };
+
+    let areaAtual = null;
+    let blocoCounter = 0;
+    const blocosState = {}; // { [blocoId]: { divIdCounter, fotos:[], photoIdCounter, criadoEm } }
+    const reportDataCache = {}; // { [blocoId]: { data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, fotos } } — usado para reabrir o relatório após o envio
+
+    // ===== Navegação entre a tela inicial e a tela de auditoria =====
+
+    function abrirAuditoria(areaKey) {
+        const area = AREAS_CONFIG[areaKey];
+        if (!area) return;
+        areaAtual = areaKey;
+
+        document.getElementById('tituloAuditoria').textContent = 'Plano de Auditoria - ' + area.label;
+        document.getElementById('subtituloAuditoria').textContent = area.subtitulo;
+        document.title = 'Plano de Auditoria - ' + area.label + ' - Grupo Krona';
+
+        document.getElementById('telaInicial').style.display = 'none';
+        document.getElementById('telaAuditoria').style.display = 'block';
+        window.scrollTo(0, 0);
+
+        restaurarRascunhoArea(areaKey);
+    }
+
+    function voltarInicio() {
+        document.getElementById('telaAuditoria').style.display = 'none';
+        document.getElementById('telaInicial').style.display = 'block';
+        document.title = 'Central de Auditorias - Grupo Krona';
+        window.scrollTo(0, 0);
+    }
+
+    // ===== Gestão dos blocos (cada bloco = uma auditoria/pedido dentro do plano) =====
+
+    function templateBloco(blocoId) {
+        return `
+            <div class="bloco-auditoria" id="bloco-${blocoId}" data-bloco-id="${blocoId}">
+                <div class="bloco-header">
+                    <strong class="bloco-numero">Auditoria</strong>
+                    <button type="button" class="btn-remove-bloco" onclick="removerBloco(${blocoId})">🗑 Remover</button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="identificador_${blocoId}">Identificador *</label>
+                        <input type="text" id="identificador_${blocoId}" required placeholder="Nº do pedido / carga">
+                    </div>
+                    <div class="form-group">
+                        <label for="data_${blocoId}">Data *</label>
+                        <input type="date" id="data_${blocoId}" required>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="turno_${blocoId}">Turno *</label>
+                        <select id="turno_${blocoId}" required>
+                            <option value="">Selecione...</option>
+                            <option value="Turno 11">Turno 11</option>
+                            <option value="Turno 21">Turno 21</option>
+                            <option value="Turno 31">Turno 31</option>
+                            <option value="Turno 16">Turno 16</option>
+                            <option value="Turno 26">Turno 26</option>
+                            <option value="Turno 36">Turno 36</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="unidade_${blocoId}">Unidade *</label>
+                        <select id="unidade_${blocoId}" required>
+                            <option value="">Selecione...</option>
+                            <option value="Matriz">Matriz</option>
+                            <option value="Nordeste">Nordeste</option>
+                            <option value="Centro-Oeste">Centro-Oeste</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-title">Análise Comportamental</div>
+                <div class="score-preview">
+                    <span>Score Geral Estimado:</span>
+                    <span id="scorePreviewBadge_${blocoId}" class="score-badge">100%</span>
+                </div>
+                <div id="behavioralQuestionsContainer_${blocoId}"></div>
+
+                <div class="form-group full-width" style="margin-top: 15px;">
+                    <label for="observacoesAuditor_${blocoId}">Registro de desvios comportamentais / Observações do auditor</label>
+                    <textarea id="observacoesAuditor_${blocoId}" rows="3" placeholder="Descreva aqui observações ou desvios comportamentais identificados..."></textarea>
+                </div>
+
+                <div class="section-title">Auditoria possui divergência?</div>
+                <div class="form-group">
+                    <label>Auditoria possui divergência? *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="divergencia_${blocoId}" value="Sim"> Sim</label>
+                        <label><input type="radio" name="divergencia_${blocoId}" value="Não" checked> Não</label>
+                    </div>
+                </div>
+
+                <div id="secaoDivergenciasCompleta_${blocoId}" style="display:none;">
+                    <div style="background:#fff5f5; padding:18px; border-radius:8px; border:1px solid #fca5a5; margin-bottom:20px;">
+                        <div style="font-weight: bold; color: var(--krona-blue); margin-bottom: 8px;">Motivos de Divergência</div>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Adicione os motivos encontrados durante a verificação.</p>
+                        <div id="divergenciasContainer_${blocoId}"></div>
+                        <button type="button" class="btn-add" onclick="addDivergenciaRow(${blocoId})">+ Adicionar Divergência</button>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 20px;">Plano de Ação / Sugestão para Correção</div>
+                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">Selecione a divergência apontada e descreva a sugestão para correção do erro.</p>
+                    <div id="planosAcaoContainer_${blocoId}"></div>
+                    <button type="button" class="btn-add" onclick="addPlanoAcaoRow(${blocoId})">+ Adicionar Plano de Ação</button>
+
+                    <div class="section-title" style="margin-top: 20px;">Responsáveis pelo Erro</div>
+                    <div id="responsaveisContainer_${blocoId}"></div>
+                    <button type="button" class="btn-add" onclick="addResponsavelRow(${blocoId})">+ Adicionar Responsável</button>
+                </div>
+
+                <div class="form-group full-width" style="margin-top: 10px;">
+                    <label>Fotos da Auditoria (Opcional)</label>
+                    <label class="upload-area" for="auditPhotos_${blocoId}">
+                        <div class="upload-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                        </div>
+                        <span class="upload-title">Anexar ou capturar fotos</span>
+                        <span class="upload-subtitle">Clique para selecionar ou usar a câmera (PNG, JPG, WEBP) — até 30 fotos por auditoria</span>
+                    </label>
+                    <input type="file" id="auditPhotos_${blocoId}" accept="image/*" multiple style="display: none;" onchange="handlePhotoUpload(event, ${blocoId})">
+                    <div id="photoPreviewGrid_${blocoId}" class="photo-grid"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renumerarBlocos() {
+        const blocos = Array.from(document.querySelectorAll('.bloco-auditoria'));
+        blocos.forEach((el, index) => {
+            const numeroEl = el.querySelector('.bloco-numero');
+            if (numeroEl) numeroEl.textContent = 'Auditoria #' + (index + 1);
+        });
+    }
+
+    function adicionarBloco() {
+        blocoCounter++;
+        const blocoId = blocoCounter;
+        blocosState[blocoId] = { divIdCounter: 0, fotos: [], photoIdCounter: 0, criadoEm: new Date().toISOString() };
+
+        const container = document.getElementById('blocosContainer');
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = templateBloco(blocoId).trim();
+        const blocoEl = wrapper.firstElementChild;
+        container.appendChild(blocoEl);
+
+        document.getElementById('identificador_' + blocoId).addEventListener('input', debounce(salvarRascunho, 800));
+        document.getElementById('data_' + blocoId).valueAsDate = new Date();
+        document.getElementById('data_' + blocoId).addEventListener('change', salvarRascunho);
+        document.getElementById('turno_' + blocoId).addEventListener('change', salvarRascunho);
+        document.getElementById('unidade_' + blocoId).addEventListener('change', salvarRascunho);
+        document.getElementById('observacoesAuditor_' + blocoId).addEventListener('input', debounce(salvarRascunho, 800));
+
+        renderBehavioralQuestions(blocoId);
+
+        blocoEl.querySelectorAll(`input[name="divergencia_${blocoId}"]`).forEach(radio => {
+            radio.addEventListener('change', function () {
+                const secao = document.getElementById('secaoDivergenciasCompleta_' + blocoId);
+                if (this.value === 'Sim') {
+                    secao.style.display = 'block';
+                    if (blocoEl.querySelectorAll('.divergencia-row').length === 0) addDivergenciaRow(blocoId);
+                    if (blocoEl.querySelectorAll('.responsavel-row').length === 0) addResponsavelRow(blocoId);
+                } else {
+                    secao.style.display = 'none';
+                }
+                calculateLiveScore(blocoId);
+                salvarRascunho();
+            });
+        });
+
+        document.getElementById('btnAdicionarBloco').textContent = '+ Adicionar Nova Auditoria';
+        document.getElementById('finalizarWrapper').style.display = 'block';
+
+        renumerarBlocos();
+        calculateLiveScore(blocoId);
+        if (!isRestoringRascunho) {
+            salvarRascunho();
+            blocoEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return blocoEl;
+    }
+
+    function removerBloco(blocoId) {
+        if (!confirm('Remover esta auditoria do plano?')) return;
+        const el = document.getElementById('bloco-' + blocoId);
+        if (el) el.remove();
+        delete blocosState[blocoId];
+        renumerarBlocos();
+        if (document.querySelectorAll('.bloco-auditoria').length === 0) {
+            document.getElementById('btnAdicionarBloco').textContent = '▶ Iniciar Auditoria';
+            document.getElementById('finalizarWrapper').style.display = 'none';
+        }
         salvarRascunho();
     }
 
-    function updatePhotoCaption(photoId, caption) {
-        const photo = selectedAuditPhotos.find(p => p.id === photoId);
-        if (photo) photo.caption = caption;
-        salvarRascunhoDebounced();
+    // ===== Perguntas comportamentais e score (por bloco) =====
+
+    function renderBehavioralQuestions(blocoId) {
+        const container = document.getElementById('behavioralQuestionsContainer_' + blocoId);
+        const fields = AREAS_CONFIG[areaAtual].questions;
+        if (!fields.length) {
+            container.innerHTML = '<div class="behavioral-placeholder">As perguntas desta auditoria ainda serão cadastradas.</div>';
+            return;
+        }
+        container.innerHTML = fields.map(field => `
+            <div class="audit-item">
+                <label for="${field.id}_${blocoId}">${field.label} (${field.weightLabel})</label>
+                <select id="${field.id}_${blocoId}" class="behavioral-field" required>
+                    <option value="">Selecione...</option>
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </div>
+        `).join('');
+        container.querySelectorAll('.behavioral-field').forEach(select => {
+            select.addEventListener('change', () => { calculateLiveScore(blocoId); salvarRascunho(); });
+        });
     }
 
-    // Exibir/Ocultar seções dinâmicas de divergência
-    document.querySelectorAll('input[name="divergencia"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const secao = document.getElementById('secaoDivergenciasCompleta');
-            if (this.value === 'Sim') {
-                secao.style.display = 'block';
-                if (document.querySelectorAll('.divergencia-row').length === 0) {
-                    addDivergenciaRow();
-                }
-                if (document.querySelectorAll('.responsavel-row').length === 0) {
-                    addResponsavelRow();
-                }
-            } else {
-                secao.style.display = 'none';
+    function listarResponsaveisDivergencias(blocoId) {
+        const blocoEl = document.getElementById('bloco-' + blocoId);
+        const radio = blocoEl.querySelector(`input[name="divergencia_${blocoId}"]:checked`);
+        if (!radio || radio.value !== 'Sim') return [];
+        return Array.from(blocoEl.querySelectorAll('.divergencia-row'))
+            .map(row => (row.querySelector('.select-divergencia-responsavel') || {}).value || '')
+            .filter(v => v !== '');
+    }
+
+    function calculateLiveScore(blocoId) {
+        const fields = AREAS_CONFIG[areaAtual].questions;
+        let totalObtainedWeight = 0, totalMaxWeight = 0;
+
+        fields.forEach(field => {
+            const el = document.getElementById(field.id + '_' + blocoId);
+            if (el) {
+                const val = el.value;
+                if (val === 'Sim') { totalObtainedWeight += field.weight; totalMaxWeight += field.weight; }
+                else if (val === 'Não') { totalMaxWeight += field.weight; }
             }
-            calculateLiveScore();
         });
-    });
 
-    // Adicionar Linha de Divergência
-    let divIdCounter = 0;
+        totalMaxWeight += listarResponsaveisDivergencias(blocoId).length * PESO_PENALIDADE_DIVERGENCIA;
 
-    // Preenche o select "Motivo Micro" de acordo com o Motivo Macro selecionado na mesma linha.
-    // Se um valor for passado, tenta selecioná-lo após montar as opções (usado ao restaurar rascunho).
+        const badge = document.getElementById('scorePreviewBadge_' + blocoId);
+        if (!badge) return;
+        if (totalMaxWeight === 0) {
+            badge.textContent = 'N/A';
+            badge.style.backgroundColor = '#64748b';
+        } else {
+            const scorePct = Math.round((totalObtainedWeight / totalMaxWeight) * 100);
+            badge.textContent = scorePct + '%';
+            if (scorePct >= 90) badge.style.backgroundColor = '#16a34a';
+            else if (scorePct >= 70) badge.style.backgroundColor = '#d97706';
+            else badge.style.backgroundColor = '#dc2626';
+        }
+    }
+
+    // ===== Divergências, Plano de Ação e Responsáveis (por bloco) =====
+
     function atualizarOpcoesMicro(row, valorSelecionado) {
         const selectMacro = row.querySelector('.select-macro');
         const selectMicro = row.querySelector('.select-micro');
@@ -1152,16 +1179,17 @@
         }
     }
 
-    function addDivergenciaRow() {
-        const container = document.getElementById('divergenciasContainer');
+    function addDivergenciaRow(blocoId) {
+        const state = blocosState[blocoId];
+        const container = document.getElementById('divergenciasContainer_' + blocoId);
         const div = document.createElement('div');
-        const divId = ++divIdCounter;
+        const divId = ++state.divIdCounter;
         div.className = 'divergencia-row';
         div.dataset.divId = divId;
         div.innerHTML = `
             <div class="divergencia-header-block">
-                <label for="divergenciaResponsavel_${divId}">Responsável pela Divergência (Peso 4 - Penalidade) *</label>
-                <select id="divergenciaResponsavel_${divId}" class="select-divergencia-responsavel behavioral-resp-field" required>
+                <label for="divergenciaResponsavel_${blocoId}_${divId}">Responsável pela Divergência (Peso 4 - Penalidade) *</label>
+                <select id="divergenciaResponsavel_${blocoId}_${divId}" class="select-divergencia-responsavel" required>
                     <option value="">Selecione...</option>
                     <option value="Conferente">Conferente</option>
                     <option value="Expedição">Expedição</option>
@@ -1172,46 +1200,45 @@
             <div class="tipo-divergencia-block">
                 <label>Tipo de divergência *</label>
                 <div class="radio-group">
-                    <label><input type="radio" name="tipoDivergencia_${divId}" value="Divergência com erro"> Divergência com erro</label>
-                    <label><input type="radio" name="tipoDivergencia_${divId}" value="Divergência de padronização"> Divergência de padronização</label>
+                    <label><input type="radio" name="tipoDivergencia_${blocoId}_${divId}" value="Divergência com erro"> Divergência com erro</label>
+                    <label><input type="radio" name="tipoDivergencia_${blocoId}_${divId}" value="Divergência de padronização"> Divergência de padronização</label>
                 </div>
             </div>
-            <select class="select-macro" name="motivoMacro">
+            <select class="select-macro">
                 <option value="">Motivo Macro...</option>
                 ${MOTIVOS_MACRO.map(m => `<option value="${m}">${m}</option>`).join('')}
             </select>
-            <select class="select-micro" name="motivoMicro">
+            <select class="select-micro">
                 <option value="">Selecione o Motivo Macro primeiro...</option>
             </select>
-            <button type="button" class="btn-remove" onclick="removeDivergenciaRow(this)">X</button>
+            <button type="button" class="btn-remove" onclick="removeDivergenciaRow(this, ${blocoId})">X</button>
         `;
         container.appendChild(div);
 
-        // Mantém as opções do Plano de Ação sincronizadas com as divergências existentes
         div.querySelector('.select-macro').addEventListener('change', function () {
             atualizarOpcoesMicro(div, '');
-            refreshPlanoAcaoSelects();
+            refreshPlanoAcaoSelects(blocoId);
             salvarRascunho();
         });
         div.querySelector('.select-micro').addEventListener('change', salvarRascunho);
         div.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', salvarRascunho));
-        div.querySelector('.select-divergencia-responsavel').addEventListener('change', () => { calculateLiveScore(); salvarRascunho(); });
-        refreshPlanoAcaoSelects();
+        div.querySelector('.select-divergencia-responsavel').addEventListener('change', () => { calculateLiveScore(blocoId); salvarRascunho(); });
+
+        refreshPlanoAcaoSelects(blocoId);
+        calculateLiveScore(blocoId);
         salvarRascunho();
     }
 
-    function removeDivergenciaRow(button) {
+    function removeDivergenciaRow(button, blocoId) {
         button.closest('.divergencia-row').remove();
-        refreshPlanoAcaoSelects();
-        calculateLiveScore();
+        refreshPlanoAcaoSelects(blocoId);
+        calculateLiveScore(blocoId);
         salvarRascunho();
     }
 
-    document.getElementById('btnAddDivergencia').addEventListener('click', addDivergenciaRow);
-
-    // Monta a lista de opções (uma por divergência ativa) para o seletor do Plano de Ação
-    function buildDivergenciaOptionsHtml(selectedValue) {
-        const rows = Array.from(document.querySelectorAll('.divergencia-row'));
+    function buildDivergenciaOptionsHtml(blocoId, selectedValue) {
+        const blocoEl = document.getElementById('bloco-' + blocoId);
+        const rows = Array.from(blocoEl.querySelectorAll('.divergencia-row'));
         let optionsHtml = '<option value="">Selecione a divergência...</option>';
         rows.forEach(row => {
             const divId = row.dataset.divId;
@@ -1223,30 +1250,28 @@
         return optionsHtml;
     }
 
-    // Reconstrói as opções de todos os seletores de Plano de Ação já existentes,
-    // preservando a seleção atual quando a divergência referenciada ainda existir
-    function refreshPlanoAcaoSelects() {
-        document.querySelectorAll('.select-divergencia-ref').forEach(select => {
+    function refreshPlanoAcaoSelects(blocoId) {
+        const blocoEl = document.getElementById('bloco-' + blocoId);
+        blocoEl.querySelectorAll('.select-divergencia-ref').forEach(select => {
             const currentValue = select.value;
-            select.innerHTML = buildDivergenciaOptionsHtml(currentValue);
+            select.innerHTML = buildDivergenciaOptionsHtml(blocoId, currentValue);
         });
     }
 
-    // Adicionar Linha de Plano de Ação / Sugestão para Correção
-    function addPlanoAcaoRow() {
-        const container = document.getElementById('planosAcaoContainer');
+    function addPlanoAcaoRow(blocoId) {
+        const container = document.getElementById('planosAcaoContainer_' + blocoId);
         const div = document.createElement('div');
         div.className = 'plano-acao-row';
         div.innerHTML = `
             <select class="select-divergencia-ref">
-                ${buildDivergenciaOptionsHtml('')}
+                ${buildDivergenciaOptionsHtml(blocoId, '')}
             </select>
             <textarea class="input-sugestao-correcao" placeholder="Descreva a sugestão para correção do erro..."></textarea>
             <button type="button" class="btn-remove" onclick="removePlanoAcaoRow(this)">X</button>
         `;
         container.appendChild(div);
         div.querySelector('.select-divergencia-ref').addEventListener('change', salvarRascunho);
-        div.querySelector('.input-sugestao-correcao').addEventListener('input', salvarRascunhoDebounced);
+        div.querySelector('.input-sugestao-correcao').addEventListener('input', debounce(salvarRascunho, 800));
         salvarRascunho();
     }
 
@@ -1255,21 +1280,18 @@
         salvarRascunho();
     }
 
-    document.getElementById('btnAddPlanoAcao').addEventListener('click', addPlanoAcaoRow);
-
-    // Adicionar Linha de Responsável pelo Erro
-    function addResponsavelRow() {
-        const container = document.getElementById('responsaveisContainer');
+    function addResponsavelRow(blocoId) {
+        const container = document.getElementById('responsaveisContainer_' + blocoId);
         const div = document.createElement('div');
         div.className = 'responsavel-row';
         div.innerHTML = `
-            <select class="select-responsavel" name="responsavelErro" style="flex: 1;">
+            <select class="select-responsavel" style="flex: 1;">
                 <option value="">Selecione o Responsável...</option>
                 ${LISTA_COLABORADORES.map(c => `<option value="${c}">${c}</option>`).join('')}
                 <option value="__outro__">Outro (digitar nome)</option>
             </select>
             <input type="text" class="input-responsavel-outro" placeholder="Digite o nome..." style="flex: 1; display: none;">
-            <select class="select-erro-relacionado" name="erroRelacionado" style="flex: 1;">
+            <select class="select-erro-relacionado" style="flex: 1;">
                 <option value="">Erro Relacionado...</option>
                 ${MOTIVOS_MACRO.map(m => `<option value="${m}">${m}</option>`).join('')}
             </select>
@@ -1293,6 +1315,11 @@
         salvarRascunho();
     }
 
+    function removeResponsavelRow(button) {
+        button.closest('.responsavel-row').remove();
+        salvarRascunho();
+    }
+
     function resolverNomeResponsavel(row) {
         const select = row.querySelector('.select-responsavel');
         if (select.value === '__outro__') {
@@ -1301,193 +1328,316 @@
         return select.value;
     }
 
-    // Responsável "Outro (digitar)"
-    const selectAuditorResponsavel = document.getElementById('auditorResponsavel');
-    const inputAuditorResponsavelOutro = document.getElementById('auditorResponsavelOutro');
-    selectAuditorResponsavel.addEventListener('change', function () {
-        const ehOutro = this.value === '__outro__';
-        inputAuditorResponsavelOutro.style.display = ehOutro ? 'block' : 'none';
-        if (ehOutro) {
-            inputAuditorResponsavelOutro.focus();
-        } else {
-            inputAuditorResponsavelOutro.value = '';
+    // ===== Fotos (por bloco) =====
+
+    async function handlePhotoUpload(event, blocoId) {
+        const state = blocosState[blocoId];
+        const files = Array.from(event.target.files).filter(f => f.type.startsWith('image/'));
+        const grid = document.getElementById('photoPreviewGrid_' + blocoId);
+
+        if (state.fotos.length >= MAX_FOTOS_POR_AUDITORIA) {
+            alert(`Limite de ${MAX_FOTOS_POR_AUDITORIA} fotos por auditoria atingido. Remova alguma foto antes de adicionar novas.`);
+            event.target.value = '';
+            return;
         }
-        salvarRascunho();
-    });
-    inputAuditorResponsavelOutro.addEventListener('input', salvarRascunho);
 
-    function resolverAuditorResponsavel() {
-        if (selectAuditorResponsavel.value === '__outro__') {
-            return inputAuditorResponsavelOutro.value.trim();
+        const espacoDisponivel = MAX_FOTOS_POR_AUDITORIA - state.fotos.length;
+        const arquivosParaProcessar = files.slice(0, espacoDisponivel);
+        if (files.length > arquivosParaProcessar.length) {
+            alert(`Só é possível adicionar mais ${espacoDisponivel} foto(s) nesta auditoria (limite de ${MAX_FOTOS_POR_AUDITORIA}).`);
         }
-        return selectAuditorResponsavel.value;
-    }
 
-    function removeResponsavelRow(button) {
-        button.closest('.responsavel-row').remove();
-        salvarRascunho();
-    }
+        for (const file of arquivosParaProcessar) {
+            try {
+                const base64Data = await comprimirImagem(file);
+                const photoId = 'photo_' + blocoId + '_' + (state.photoIdCounter++) + '_' + Date.now();
+                state.fotos.push({ id: photoId, src: base64Data, caption: '' });
 
-    document.getElementById('btnAddResponsavel').addEventListener('click', addResponsavelRow);
-
-    // Salva o rascunho a cada alteração em qualquer campo do formulário
-    // (delegação de evento — cobre também os campos adicionados dinamicamente)
-    document.getElementById('auditForm').addEventListener('input', salvarRascunhoDebounced);
-    document.getElementById('auditForm').addEventListener('change', salvarRascunho);
-
-    // Cálculo em Tempo Real do Score Comportamental
-    const behavioralFields = [
-        { id: 'carrinhoOrganizado', weight: 2, label: '1. Carrinho organizado após separação?', weightLabel: 'Criticidade 2' },
-        { id: 'caixasLacradas', weight: 2, label: '2. Embalagem devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
-        { id: 'caixaSacoConservacao', weight: 1, label: '3. Embalagem em bom estado de conservação?', weightLabel: 'Criticidade 1' },
-        { id: 'lojinhaSeparada', weight: 1, label: '4. Lojinha separada na caixa?', weightLabel: 'Criticidade 1' },
-        { id: 'placaSeparacao', weight: 3, label: '5. Placa de identificação preenchida corretamente na separação?', weightLabel: 'Criticidade 3' },
-        { id: 'bipouUmCodigo', weight: 3, label: '6. Conferente bipou um código por vez?', weightLabel: 'Criticidade 3' },
-        { id: 'limiteItensVolume', weight: 3, label: '7. Limite de itens por volume respeitada?', weightLabel: 'Criticidade 3' },
-        { id: 'placaCheckout', weight: 3, label: '8. Placa de identificação preenchida corretamente no checkout?', weightLabel: 'Criticidade 3' },
-        { id: 'aramadoOrganizado', weight: 3, label: '9. Aramado organizado para embarque?', weightLabel: 'Criticidade 3' },
-        { id: 'quantidadeAgrupada', weight: 2, label: '10. A quantidade total do item estava agrupada?', weightLabel: 'Criticidade 2' },
-        { id: 'caixasRafiasLacradas', weight: 2, label: '11. Caixas/Ráfias/Rolos devidamente lacrada e etiquetada?', weightLabel: 'Criticidade 2' },
-        { id: 'caixasRafiasConservacao', weight: 1, label: '12. Caixas/Ráfias/Rolos em bom estado de conservação?', weightLabel: 'Criticidade 1' },
-        { id: 'quantidadeAuditadaCorreta', weight: 4, label: '13. A quantidade dos itens auditados estava correta?', weightLabel: 'Criticidade 4' },
-        { id: 'conversaParalela', weight: 3, label: '14. Conferente se distraiu em conversa paralela durante o processo?', weightLabel: 'Criticidade 3' },
-        { id: 'procedimentoPadrao', weight: 3, label: '15. Conferente seguiu o procedimento padrão definido pela Krona?', weightLabel: 'Criticidade 3' }
-    ];
-
-    const PESO_PENALIDADE_DIVERGENCIA = 4;
-
-    // Lê todas as divergências atuais na tela e retorna o responsável (Conferente/Expedição/Ambos/N/A)
-    // indicado em cada uma — só conta as que já têm responsável selecionado. Cada divergência com
-    // responsável identificado soma Peso 4 de penalidade (uma penalidade por divergência, não uma só pra auditoria toda).
-    function listarResponsaveisDivergencias() {
-        const divergenciaRadio = document.querySelector('input[name="divergencia"]:checked');
-        if (!divergenciaRadio || divergenciaRadio.value !== 'Sim') return [];
-        return Array.from(document.querySelectorAll('.divergencia-row'))
-            .map(row => (row.querySelector('.select-divergencia-responsavel') || {}).value || '')
-            .filter(v => v !== '');
-    }
-
-    function calculateLiveScore() {
-        let totalObtainedWeight = 0;
-        let totalMaxWeight = 0;
-
-        behavioralFields.forEach(field => {
-            const el = document.getElementById(field.id);
-            if (el) {
-                const val = el.value;
-                if (val === 'Sim') { totalObtainedWeight += field.weight; totalMaxWeight += field.weight; }
-                else if (val === 'Não') { totalMaxWeight += field.weight; }
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                card.dataset.photoId = photoId;
+                card.innerHTML = `
+                    <div class="photo-img-wrap">
+                        <img src="${base64Data}" alt="Foto Auditoria">
+                        <button type="button" class="remove-btn-photo" onclick="removeAuditPhoto('${photoId}', ${blocoId})">&times;</button>
+                    </div>
+                    <input type="text" class="caption-input" placeholder="Ex: Item 3 / Divergência #1..." oninput="updatePhotoCaption('${photoId}', ${blocoId}, this.value)">
+                `;
+                grid.appendChild(card);
+                salvarRascunho();
+            } catch (err) {
+                console.error('Erro ao processar foto:', err);
             }
+        }
+
+        event.target.value = '';
+    }
+
+    function removeAuditPhoto(photoId, blocoId) {
+        const state = blocosState[blocoId];
+        state.fotos = state.fotos.filter(photo => photo.id !== photoId);
+        const card = document.querySelector(`#bloco-${blocoId} .photo-card[data-photo-id="${photoId}"]`);
+        if (card) card.remove();
+        salvarRascunho();
+    }
+
+    function updatePhotoCaption(photoId, blocoId, caption) {
+        const photo = blocosState[blocoId].fotos.find(p => p.id === photoId);
+        if (photo) photo.caption = caption;
+        debounce(salvarRascunho, 800)();
+    }
+
+    // ===== Rascunho automático (localStorage), um por área =====
+
+    function coletarEstadoBloco(blocoId) {
+        const blocoEl = document.getElementById('bloco-' + blocoId);
+        const fields = AREAS_CONFIG[areaAtual].questions;
+
+        const campos = {
+            identificador: document.getElementById('identificador_' + blocoId).value,
+            data: document.getElementById('data_' + blocoId).value,
+            turno: document.getElementById('turno_' + blocoId).value,
+            unidade: document.getElementById('unidade_' + blocoId).value,
+            observacoesAuditor: document.getElementById('observacoesAuditor_' + blocoId).value,
+            divergencia: (blocoEl.querySelector(`input[name="divergencia_${blocoId}"]:checked`) || {}).value || 'Não'
+        };
+        fields.forEach(f => {
+            const el = document.getElementById(f.id + '_' + blocoId);
+            if (el) campos[f.id] = el.value;
         });
 
-        // Penalidade geral por divergência (Peso 4 cada) — toda divergência com responsável
-        // identificado penaliza o Score Geral, independente de quem foi o responsável.
-        totalMaxWeight += listarResponsaveisDivergencias().length * PESO_PENALIDADE_DIVERGENCIA;
+        const divergencias = Array.from(blocoEl.querySelectorAll('.divergencia-row')).map(row => ({
+            divId: row.dataset.divId,
+            responsavel: (row.querySelector('.select-divergencia-responsavel') || {}).value || '',
+            tipo: (row.querySelector('input[type="radio"]:checked') || {}).value || '',
+            macro: row.querySelector('.select-macro').value,
+            micro: row.querySelector('.select-micro').value
+        }));
 
-        const badge = document.getElementById('scorePreviewBadge');
+        const planosAcao = Array.from(blocoEl.querySelectorAll('.plano-acao-row')).map(row => ({
+            divId: row.querySelector('.select-divergencia-ref').value,
+            sugestao: row.querySelector('.input-sugestao-correcao').value
+        }));
 
-        // Sem itens "Sim"/"Não" respondidos (em branco, ou todos marcados N/A) —
-        // não faz sentido mostrar "100%" nesse caso, pois passaria a falsa
-        // impressão de auditoria perfeita sem nenhuma resposta pontuável.
-        if (totalMaxWeight === 0) {
-            badge.textContent = 'N/A';
-            badge.style.backgroundColor = '#64748b';
-        } else {
-            let scorePct = Math.round((totalObtainedWeight / totalMaxWeight) * 100);
-            badge.textContent = scorePct + '%';
-            if (scorePct >= 90) badge.style.backgroundColor = '#16a34a';
-            else if (scorePct >= 70) badge.style.backgroundColor = '#d97706';
-            else badge.style.backgroundColor = '#dc2626';
+        const responsaveis = Array.from(blocoEl.querySelectorAll('.responsavel-row')).map(row => ({
+            nome: resolverNomeResponsavel(row),
+            erro: row.querySelector('.select-erro-relacionado').value
+        }));
+
+        return {
+            campos,
+            divergencias,
+            planosAcao,
+            responsaveis,
+            fotos: blocosState[blocoId].fotos,
+            divIdCounterSnapshot: blocosState[blocoId].divIdCounter,
+            criadoEm: blocosState[blocoId].criadoEm
+        };
+    }
+
+    function coletarRascunho() {
+        const blocoIds = Array.from(document.querySelectorAll('.bloco-auditoria')).map(el => Number(el.dataset.blocoId));
+        return {
+            area: areaAtual,
+            blocoCounterSnapshot: blocoCounter,
+            blocos: blocoIds.map(coletarEstadoBloco),
+            salvoEm: new Date().toISOString()
+        };
+    }
+
+    function salvarRascunho() {
+        if (!storageAvailable || isRestoringRascunho || !areaAtual) return;
+        try {
+            const blocosAtivos = document.querySelectorAll('.bloco-auditoria').length;
+            if (blocosAtivos === 0) {
+                localStorage.removeItem(DRAFT_STORAGE_KEY + '_' + areaAtual);
+                return;
+            }
+            localStorage.setItem(DRAFT_STORAGE_KEY + '_' + areaAtual, JSON.stringify(coletarRascunho()));
+        } catch (e) {
+            // Provavelmente estourou a cota do localStorage (fotos pesam bastante) — evita travar a auditoria.
+            console.warn('Não foi possível salvar o rascunho da auditoria (espaço de armazenamento insuficiente).', e);
         }
     }
 
-    document.querySelectorAll('.behavioral-field, .behavioral-resp-field').forEach(select => {
-        select.addEventListener('change', calculateLiveScore);
-    });
-
-    // GERAÇÃO DO RELATÓRIO PDF COM TEMPO EM DESTAQUE NO TOPO
-    function openReportWindow(data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, listPhotos) {
-        const scoreEhValido = scorePct !== null && scorePct !== undefined;
-        let scoreColor = !scoreEhValido ? '#64748b' : (scorePct >= 90 ? '#16a34a' : (scorePct >= 70 ? '#d97706' : '#dc2626'));
-        let statusTexto = !scoreEhValido ? 'Sem itens avaliáveis (todos marcados N/A)' : (scorePct >= 90 ? 'Conforme / Excelência' : (scorePct >= 70 ? 'Atenção / Reorientação' : 'Não Conforme / Risco Crítico'));
-        let scoreTexto = scoreEhValido ? scorePct + '%' : 'N/A';
-
-        function corParaScoreTexto(scoreStr) {
-            if (!scoreStr || scoreStr === 'N/A') return '#64748b';
-            const n = parseInt(String(scoreStr).replace('%', ''), 10);
-            if (isNaN(n)) return '#64748b';
-            return n >= 90 ? '#16a34a' : (n >= 70 ? '#d97706' : '#dc2626');
+    function restaurarRascunhoArea(areaKey) {
+        if (!storageAvailable) return;
+        let raw;
+        try {
+            raw = localStorage.getItem(DRAFT_STORAGE_KEY + '_' + areaKey);
+        } catch (e) {
+            return;
         }
+        if (!raw) return;
 
-        const reportHtml = `
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <head>
-                <meta charset="UTF-8">
-                <title>Relatório de Auditoria - Grupo Krona</title>
-                <style>
-                    * {
-                        -webkit-print-color-adjust: exact !important;
-                        print-color-adjust: exact !important;
-                    }
-                    body { font-family: 'Segoe UI', Arial, sans-serif; padding: 25px; color: #1e293b; background: #fff; }
-                    .header { background: #003865 !important; color: #ffffff !important; padding: 18px; text-align: center; border-radius: 6px; }
-                    .header h1 { margin: 0; font-size: 18px; font-weight: bold; color: #ffffff !important; }
-                    
-                    .score-container { display: flex; gap: 15px; margin: 20px 0; page-break-inside: avoid; }
-                    .score-box { flex: 1; background: ${scoreColor} !important; color: #ffffff !important; padding: 15px; text-align: center; border-radius: 6px; }
-                    .score-box span { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #ffffff !important; }
-                    .score-box h2 { margin: 5px 0 0 0; font-size: 26px; color: #ffffff !important; }
-                    
-                    .time-box { flex: 1; background: #005691 !important; color: #ffffff !important; padding: 15px; text-align: center; border-radius: 6px; }
-                    .time-box span { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #ffffff !important; }
-                    .time-box h2 { margin: 5px 0 0 0; font-size: 24px; font-family: monospace; color: #ffffff !important; }
+        let rascunho;
+        try {
+            rascunho = JSON.parse(raw);
+        } catch (e) {
+            return;
+        }
+        if (!rascunho || !Array.isArray(rascunho.blocos) || rascunho.blocos.length === 0) return;
 
-                    .status-box { flex: 2; background: #f1f5f9 !important; padding: 15px; border-radius: 6px; border: 1px solid #cbd5e1; }
-                    .status-box div { font-size: 11px; font-weight: 600; color: #64748b; }
-                    .status-box strong { font-size: 16px; color: ${scoreColor} !important; display: block; margin-top: 4px; }
-                    
-                    .section-title { font-size: 13px; font-weight: bold; color: #003865 !important; border-bottom: 2px solid #005691; padding-bottom: 4px; margin: 20px 0 10px 0; text-transform: uppercase; page-break-inside: avoid; page-break-after: avoid; }
-                    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 11px; page-break-inside: avoid; }
-                    .grid-item { background: #f8fafc !important; padding: 8px; border-radius: 4px; border: 1px solid #e2e8f0; }
-                    .grid-item strong { color: #003865 !important; }
-                    
-                    .report-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 11px; page-break-inside: avoid; }
-                    .report-table th { background: #005691 !important; color: #ffffff !important; padding: 6px 10px; text-align: left; }
-                    .report-table td { border: 1px solid #cbd5e1; padding: 6px 10px; }
-                    .report-table tr:nth-child(even) { background: #f8fafc !important; }
-                    .report-table tr.row-nao { background: #fee2e2 !important; }
-                    .report-table tr.row-nao td { color: #b91c1c !important; font-weight: 600; }
-                    .report-table tr.row-sim td strong { color: #16a34a !important; }
-                    
-                    .obs-box { background: #f8fafc !important; border: 1px solid #cbd5e1; border-radius: 4px; padding: 10px; font-size: 11px; margin-top: 8px; white-space: pre-wrap; page-break-inside: avoid; }
+        isRestoringRascunho = true;
 
-                    .photos-report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; page-break-inside: avoid; }
-                    .photos-report-grid figure { margin: 0; border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
-                    .photos-report-grid img { width: 100%; height: 120px; object-fit: cover; display: block; }
-                    .photos-report-grid figcaption { font-size: 10px; padding: 5px 6px; background: #f8fafc !important; border-top: 1px solid #cbd5e1; color: #1e293b !important; }
-                    
-                    @media print { 
-                        .no-print { display: none !important; } 
-                        body { padding: 0; }
-                        .report-table, .section-title, tr, .grid, .score-container {
-                            page-break-inside: avoid;
-                        }
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="no-print" style="margin-bottom: 15px; text-align: right;">
-                    <button onclick="window.print()" style="background: #003865; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Salvar como PDF / Imprimir</button>
-                </div>
-                
+        rascunho.blocos.forEach(blocoSalvo => {
+            const blocoEl = adicionarBloco();
+            const blocoId = Number(blocoEl.dataset.blocoId);
+            const state = blocosState[blocoId];
+
+            document.getElementById('identificador_' + blocoId).value = blocoSalvo.campos.identificador || '';
+            if (blocoSalvo.campos.data) document.getElementById('data_' + blocoId).value = blocoSalvo.campos.data;
+            document.getElementById('turno_' + blocoId).value = blocoSalvo.campos.turno || '';
+            document.getElementById('unidade_' + blocoId).value = blocoSalvo.campos.unidade || '';
+            document.getElementById('observacoesAuditor_' + blocoId).value = blocoSalvo.campos.observacoesAuditor || '';
+
+            AREAS_CONFIG[areaKey].questions.forEach(f => {
+                const el = document.getElementById(f.id + '_' + blocoId);
+                if (el && blocoSalvo.campos[f.id]) el.value = blocoSalvo.campos[f.id];
+            });
+
+            if (blocoSalvo.campos.divergencia === 'Sim') {
+                const radio = blocoEl.querySelector(`input[name="divergencia_${blocoId}"][value="Sim"]`);
+                if (radio) radio.checked = true;
+                document.getElementById('secaoDivergenciasCompleta_' + blocoId).style.display = 'block';
+            }
+
+            (blocoSalvo.divergencias || []).forEach(d => {
+                addDivergenciaRow(blocoId);
+                const row = document.querySelector('#divergenciasContainer_' + blocoId + ' .divergencia-row:last-child');
+                row.dataset.divId = d.divId;
+                const selResp = row.querySelector('.select-divergencia-responsavel');
+                if (selResp && d.responsavel) selResp.value = d.responsavel;
+                if (d.tipo) {
+                    const radio = row.querySelector(`input[type="radio"][value="${d.tipo}"]`);
+                    if (radio) radio.checked = true;
+                }
+                row.querySelector('.select-macro').value = d.macro || '';
+                atualizarOpcoesMicro(row, d.micro || '');
+            });
+            state.divIdCounter = blocoSalvo.divIdCounterSnapshot || state.divIdCounter;
+            refreshPlanoAcaoSelects(blocoId);
+
+            (blocoSalvo.planosAcao || []).forEach(p => {
+                addPlanoAcaoRow(blocoId);
+                const row = document.querySelector('#planosAcaoContainer_' + blocoId + ' .plano-acao-row:last-child');
+                row.querySelector('.select-divergencia-ref').value = p.divId || '';
+                row.querySelector('.input-sugestao-correcao').value = p.sugestao || '';
+            });
+
+            (blocoSalvo.responsaveis || []).forEach(r => {
+                addResponsavelRow(blocoId);
+                const row = document.querySelector('#responsaveisContainer_' + blocoId + ' .responsavel-row:last-child');
+                const select = row.querySelector('.select-responsavel');
+                const inputOutro = row.querySelector('.input-responsavel-outro');
+                const nomeConhecido = LISTA_COLABORADORES.includes(r.nome);
+                if (r.nome && !nomeConhecido) {
+                    select.value = '__outro__';
+                    inputOutro.style.display = 'block';
+                    inputOutro.value = r.nome;
+                } else {
+                    select.value = r.nome || '';
+                }
+                row.querySelector('.select-erro-relacionado').value = r.erro || '';
+            });
+
+            if (Array.isArray(blocoSalvo.fotos) && blocoSalvo.fotos.length > 0) {
+                state.fotos = blocoSalvo.fotos;
+                const grid = document.getElementById('photoPreviewGrid_' + blocoId);
+                blocoSalvo.fotos.forEach(photo => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    card.dataset.photoId = photo.id;
+                    card.innerHTML = `
+                        <div class="photo-img-wrap">
+                            <img src="${photo.src}" alt="Foto Auditoria">
+                            <button type="button" class="remove-btn-photo" onclick="removeAuditPhoto('${photo.id}', ${blocoId})">&times;</button>
+                        </div>
+                        <input type="text" class="caption-input" placeholder="Ex: Item 3 / Divergência #1..." value="${(photo.caption || '').replace(/"/g, '&quot;')}" oninput="updatePhotoCaption('${photo.id}', ${blocoId}, this.value)">
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+
+            state.criadoEm = blocoSalvo.criadoEm || state.criadoEm;
+            calculateLiveScore(blocoId);
+        });
+
+        blocoCounter = Math.max(blocoCounter, rascunho.blocoCounterSnapshot || blocoCounter);
+        renumerarBlocos();
+        isRestoringRascunho = false;
+        salvarRascunho();
+    }
+
+    // ===== Geração do Relatório PDF (por bloco/auditoria) =====
+
+    function buildReportStyleHtml() {
+        return `
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            body { font-family: 'Segoe UI', Arial, sans-serif; padding: 25px; color: #1e293b; background: #fff; }
+            .header { background: #003865 !important; color: #ffffff !important; padding: 18px; text-align: center; border-radius: 6px; }
+            .header h1 { margin: 0; font-size: 18px; font-weight: bold; color: #ffffff !important; }
+
+            .score-container { display: flex; gap: 15px; margin: 20px 0; page-break-inside: avoid; }
+            .score-box { flex: 1; color: #ffffff !important; padding: 15px; text-align: center; border-radius: 6px; }
+            .score-box span { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #ffffff !important; }
+            .score-box h2 { margin: 5px 0 0 0; font-size: 26px; color: #ffffff !important; }
+
+            .time-box { flex: 1; background: #005691 !important; color: #ffffff !important; padding: 15px; text-align: center; border-radius: 6px; }
+            .time-box span { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #ffffff !important; }
+            .time-box h2 { margin: 5px 0 0 0; font-size: 26px; color: #ffffff !important; }
+
+            .status-box { flex: 1.4; background: #f1f5f9 !important; border: 1px solid #cbd5e1; padding: 15px; text-align: center; border-radius: 6px; display:flex; flex-direction:column; justify-content:center; }
+            .status-box div { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #475569 !important; }
+            .status-box strong { font-size: 14px; color: #1e293b !important; margin-top: 4px; display:block; }
+
+            .section-title { font-size: 13px; font-weight: bold; color: #003865 !important; border-bottom: 2px solid #005691; padding-bottom: 4px; margin: 20px 0 10px 0; text-transform: uppercase; page-break-inside: avoid; page-break-after: avoid; }
+            .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 16px; font-size: 12px; }
+            .grid-item strong { color: #475569 !important; }
+
+            .report-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 6px; }
+            .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; }
+            .report-table th { background: #f1f5f9 !important; color: #003865 !important; }
+            .row-nao { background: #fef2f2 !important; }
+            .row-sim { background: #f0fdf4 !important; }
+
+            .obs-box { font-size: 12px; background: #f8fafc !important; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; white-space: pre-wrap; }
+
+            .photos-report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+            .photos-report-grid figure { margin: 0; border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden; page-break-inside: avoid; }
+            .photos-report-grid img { width: 100%; height: 120px; object-fit: cover; display: block; }
+            .photos-report-grid figcaption { font-size: 10px; padding: 5px 6px; background: #f8fafc !important; border-top: 1px solid #cbd5e1; color: #1e293b !important; }
+
+            .relatorio-bloco + .relatorio-bloco { page-break-before: always; margin-top: 24px; }
+
+            @media print {
+                .no-print { display: none !important; }
+                body { padding: 0; }
+                .report-table, .section-title, tr, .grid, .score-container {
+                    page-break-inside: avoid;
+                }
+            }
+        `;
+    }
+
+    function buildReportSectionHtml(data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, listPhotos) {
+        const scoreEhValido = scorePct !== null && scorePct !== undefined;
+        const scoreColor = !scoreEhValido ? '#64748b' : (scorePct >= 90 ? '#16a34a' : (scorePct >= 70 ? '#d97706' : '#dc2626'));
+        const statusTexto = !scoreEhValido ? 'Sem itens avaliáveis (todos marcados N/A)' : (scorePct >= 90 ? 'Conforme / Excelência' : (scorePct >= 70 ? 'Atenção / Reorientação' : 'Não Conforme / Risco Crítico'));
+        const scoreTexto = scoreEhValido ? scorePct + '%' : 'N/A';
+
+        return `
+            <div class="relatorio-bloco">
                 <div class="header">
                     <h1>GRUPO KRONA - RELATÓRIO OFICIAL DE AUDITORIA DE QUALIDADE</h1>
+                    <p style="margin-top: 4px; font-size: 12px; opacity: 0.9;">Área Auditada: ${(AREAS_CONFIG[data.area] || {}).label || data.area || '-'}</p>
                 </div>
 
-                <!-- CARDS SUPERIORES COM DESTAQUE PARA O TEMPO TOTAL -->
                 <div class="score-container">
-                    <div class="score-box">
+                    <div class="score-box" style="background: ${scoreColor} !important;">
                         <span>Score Geral</span>
                         <h2>${scoreTexto}</h2>
                     </div>
@@ -1503,13 +1653,14 @@
 
                 <div class="section-title">1. Contexto Operacional</div>
                 <div class="grid">
+                    <div class="grid-item"><strong>Área Auditada:</strong> ${(AREAS_CONFIG[data.area] || {}).label || data.area || '-'}</div>
+                    <div class="grid-item"><strong>Identificador:</strong> ${data.identificador || '-'}</div>
                     <div class="grid-item"><strong>ID Auditoria:</strong> ${data.auditId || '-'}</div>
                     <div class="grid-item"><strong>Hora Início:</strong> ${data.horaInicio || '-'}</div>
                     <div class="grid-item"><strong>Tempo Total:</strong> ${data.tempoTotal || '-'}</div>
                     <div class="grid-item"><strong>Data:</strong> ${data.data || '-'}</div>
                     <div class="grid-item"><strong>Unidade:</strong> ${data.unidade || '-'}</div>
                     <div class="grid-item"><strong>Turno:</strong> ${data.turno || '-'}</div>
-                    <div class="grid-item"><strong>Responsável:</strong> ${data.auditorResponsavel || '-'}</div>
                 </div>
 
                 <div class="section-title">2. Apuração de Divergências</div>
@@ -1567,12 +1718,12 @@
                     <thead>
                         <tr>
                             <th>Item Avaliado</th>
-                            <th>Criticidade</th>
+                            <th>Peso</th>
                             <th>Resposta</th>
                         </tr>
                     </thead>
                     <tbody>
-                        ${behavioralFields.map(field => {
+                        ${(AREAS_CONFIG[data.area] || { questions: [] }).questions.map(field => {
                             const resposta = data[field.id] || '-';
                             const rowClass = resposta === 'Não' ? 'row-nao' : (resposta === 'Sim' ? 'row-sim' : '');
                             return `<tr class="${rowClass}"><td>${field.label}</td><td>${field.weightLabel}</td><td><strong>${resposta}</strong></td></tr>`;
@@ -1584,6 +1735,24 @@
                     <div class="section-title">7. Observações do Auditor / Desvios Comportamentais</div>
                     <div class="obs-box">${data.observacoesAuditor}</div>
                 ` : ''}
+            </div>
+        `;
+    }
+
+    function abrirJanelaRelatorio(secoesHtml) {
+        const reportHtml = `
+            <!DOCTYPE html>
+            <html lang="pt-BR">
+            <head>
+                <meta charset="UTF-8">
+                <title>Relatório de Auditoria - Grupo Krona</title>
+                <style>${buildReportStyleHtml()}</style>
+            </head>
+            <body>
+                <div class="no-print" style="margin-bottom: 15px; text-align: right;">
+                    <button onclick="window.print()" style="background: #003865; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Salvar como PDF / Imprimir</button>
+                </div>
+                ${secoesHtml.join('')}
             </body>
             </html>
         `;
@@ -1591,8 +1760,7 @@
         const win = window.open('', '_blank');
 
         if (!win || win.closed || typeof win.closed === 'undefined') {
-            // Pop-up bloqueado pelo navegador — avisa o usuário em vez de falhar em silêncio
-            alert('O navegador bloqueou a abertura do relatório em PDF.\n\nPara gerar o PDF: permita pop-ups para esta página nas configurações do navegador e envie a auditoria novamente (os dados já foram enviados normalmente).');
+            alert('O navegador bloqueou a abertura do relatório em PDF.\n\nPara gerar o PDF: permita pop-ups para esta página nas configurações do navegador e clique novamente em "Ver relatório".');
             return;
         }
 
@@ -1601,344 +1769,71 @@
         setTimeout(() => { win.print(); }, 500);
     }
 
-    // ===== Rascunho automático da auditoria em andamento (localStorage) =====
-    // Só existe algo a salvar depois que "Iniciar Auditoria" é clicado (antes
-    // disso o fieldset está desabilitado e o formulário está vazio mesmo).
-    // O rascunho só é apagado quando a auditoria é enviada com sucesso ou
-    // quando o usuário clica em "Descartar e começar do zero".
-    function coletarRascunho() {
-        const formData = new FormData(document.getElementById('auditForm'));
-        const campos = {};
-        formData.forEach((value, key) => { campos[key] = value; });
-        campos.auditorResponsavel = resolverAuditorResponsavel();
-
-        const divergencias = Array.from(document.querySelectorAll('.divergencia-row')).map(row => ({
-            divId: row.dataset.divId,
-            responsavel: (row.querySelector('.select-divergencia-responsavel') || {}).value || '',
-            tipo: (row.querySelector('input[type="radio"]:checked') || {}).value || '',
-            macro: row.querySelector('.select-macro').value,
-            micro: row.querySelector('.select-micro').value
-        }));
-
-        const planosAcao = Array.from(document.querySelectorAll('.plano-acao-row')).map(row => ({
-            divId: row.querySelector('.select-divergencia-ref').value,
-            sugestao: row.querySelector('.input-sugestao-correcao').value
-        }));
-
-        const responsaveis = Array.from(document.querySelectorAll('.responsavel-row')).map(row => ({
-            nome: resolverNomeResponsavel(row),
-            erro: row.querySelector('.select-erro-relacionado').value
-        }));
-
-        return {
-            campos,
-            divergencias,
-            planosAcao,
-            responsaveis,
-            fotos: selectedAuditPhotos,
-            divIdCounterSnapshot: divIdCounter,
-            auditStartTimeISO: auditStartTime ? auditStartTime.toISOString() : null,
-            salvoEm: new Date().toISOString()
-        };
+    function openReportWindow(data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, listPhotos) {
+        abrirJanelaRelatorio([buildReportSectionHtml(data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, listPhotos)]);
     }
 
-    function salvarRascunho() {
-        if (!storageAvailable || isRestoringRascunho) return;
-        // Só há auditoria em andamento (e portanto algo a salvar) depois de iniciada
-        if (!auditStartTime) return;
+    // Abre UM único PDF contendo todas as auditorias enviadas com sucesso no plano,
+    // cada uma em sua própria página (quebra de página automática entre elas).
+    function openCombinedReportWindow(caches) {
+        const secoes = caches.filter(Boolean).map(c =>
+            buildReportSectionHtml(c.data, c.scorePct, c.listDivergencias, c.listPlanosAcao, c.listResponsaveis, c.fotos)
+        );
+        if (secoes.length === 0) return;
+        abrirJanelaRelatorio(secoes);
+    }
+
+    function reabrirRelatorio(blocoId) {
+        const cache = reportDataCache[blocoId];
+        if (!cache) {
+            alert('Esse relatório não está mais disponível nesta sessão.');
+            return;
+        }
         try {
-            const rascunho = coletarRascunho();
-            localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(rascunho));
-        } catch (e) {
-            // Provavelmente estourou a cota do localStorage (fotos pesam bastante).
-            // Tenta salvar de novo sem as fotos, pra não perder ao menos o texto preenchido.
-            try {
-                const rascunhoSemFotos = coletarRascunho();
-                rascunhoSemFotos.fotos = [];
-                rascunhoSemFotos.fotosOmitidas = true;
-                localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(rascunhoSemFotos));
-                console.warn('Rascunho salvo sem as fotos (espaço de armazenamento do navegador insuficiente para incluí-las).');
-            } catch (e2) {
-                console.warn('Não foi possível salvar o rascunho da auditoria:', e2);
-            }
-        }
-    }
-
-    async function limparRascunho() {
-        let auditIdParaExcluir = null;
-        if (storageAvailable) {
-            try {
-                const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
-                if (raw) {
-                    const rascunho = JSON.parse(raw);
-                    auditIdParaExcluir = rascunho && rascunho.campos && rascunho.campos.auditId;
-                }
-            } catch (e) { /* ignora */ }
-            try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch (e) { /* ignora */ }
-        }
-
-        // Se essa auditoria já tinha sido salva na nuvem, remove o checkpoint também —
-        // senão ela continua aparecendo como "pendente" pra sempre em qualquer aparelho.
-        if (auditIdParaExcluir) {
-            try {
-                await fetch(GOOGLE_SCRIPT_URL + '?action=excluirPendente', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ auditId: auditIdParaExcluir }),
-                    keepalive: true
-                });
-            } catch (e) {
-                // Sem internet ou falha no servidor — não trava o descarte local,
-                // mas o checkpoint na nuvem pode continuar órfão até ser sobrescrito.
-            }
-        }
-
-        // Recarregar a página é a forma mais segura de garantir que todo o
-        // estado (timer, fieldset, linhas dinâmicas, fotos) volte ao zero.
-        location.reload();
-    }
-
-    function restaurarRascunho(rascunhoExterno) {
-        let rascunho = rascunhoExterno;
-        if (!rascunho) {
-            if (!storageAvailable) return;
-            try {
-                const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
-                if (!raw) return;
-                rascunho = JSON.parse(raw);
-            } catch (e) {
-                return;
-            }
-        }
-
-        if (!rascunho || !rascunho.campos || !rascunho.campos.auditId) return;
-
-        isRestoringRascunho = true;
-
-        const form = document.getElementById('auditForm');
-
-        // Reabilita o formulário e restaura ID/cronômetro
-        document.getElementById('auditFields').disabled = false;
-        document.getElementById('auditIdDisplay').textContent = rascunho.campos.auditId;
-
-        if (rascunho.auditStartTimeISO) {
-            auditStartTime = new Date(rascunho.auditStartTimeISO);
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(updateTimer, 1000);
-            updateTimer();
-        }
-
-        const btnStart = document.getElementById('btnStartAudit');
-        btnStart.disabled = true;
-        btnStart.textContent = '⏱ Auditoria em Andamento';
-        btnStart.style.backgroundColor = '#64748b';
-        document.getElementById('btnSalvarNuvem').style.display = 'inline-block';
-        document.getElementById('pendentesNuvemContainer').style.display = 'none';
-
-        // Restaura campos simples (texto, data, select, textarea, rádio)
-        Object.keys(rascunho.campos).forEach(nome => {
-            const el = form.elements[nome];
-            if (!el) return;
-            try { el.value = rascunho.campos[nome]; } catch (e) { /* ignora campos incompatíveis */ }
-        });
-
-        // Mesma lógica para o responsável digitado
-        const auditorSalvo = rascunho.campos.auditorResponsavel;
-        const auditorConhecido = Array.from(selectAuditorResponsavel.options).some(opt => opt.value === auditorSalvo);
-        if (auditorSalvo && !auditorConhecido) {
-            selectAuditorResponsavel.value = '__outro__';
-            inputAuditorResponsavelOutro.style.display = 'block';
-            inputAuditorResponsavelOutro.value = auditorSalvo;
-        }
-
-        if (rascunho.campos.divergencia === 'Sim') {
-            document.getElementById('secaoDivergenciasCompleta').style.display = 'block';
-        }
-
-        // Restaura divergências (preservando os IDs originais para bater com o Plano de Ação)
-        (rascunho.divergencias || []).forEach(d => {
-            addDivergenciaRow();
-            const row = document.querySelector('#divergenciasContainer .divergencia-row:last-child');
-            row.dataset.divId = d.divId;
-            const selResp = row.querySelector('.select-divergencia-responsavel');
-            if (selResp && d.responsavel) selResp.value = d.responsavel;
-            if (d.tipo) {
-                const radio = row.querySelector(`input[type="radio"][value="${d.tipo}"]`);
-                if (radio) radio.checked = true;
-            }
-            row.querySelector('.select-macro').value = d.macro || '';
-            atualizarOpcoesMicro(row, d.micro || '');
-        });
-        divIdCounter = rascunho.divIdCounterSnapshot || divIdCounter;
-        refreshPlanoAcaoSelects();
-
-        // Restaura planos de ação
-        (rascunho.planosAcao || []).forEach(p => {
-            addPlanoAcaoRow();
-            const row = document.querySelector('#planosAcaoContainer .plano-acao-row:last-child');
-            row.querySelector('.select-divergencia-ref').value = p.divId || '';
-            row.querySelector('.input-sugestao-correcao').value = p.sugestao || '';
-        });
-
-        // Restaura responsáveis
-        (rascunho.responsaveis || []).forEach(r => {
-            addResponsavelRow();
-            const row = document.querySelector('#responsaveisContainer .responsavel-row:last-child');
-            const select = row.querySelector('.select-responsavel');
-            const inputOutro = row.querySelector('.input-responsavel-outro');
-            const nomeConhecido = LISTA_COLABORADORES.includes(r.nome);
-            if (r.nome && !nomeConhecido) {
-                select.value = '__outro__';
-                inputOutro.style.display = 'block';
-                inputOutro.value = r.nome;
-            } else {
-                select.value = r.nome || '';
-            }
-            row.querySelector('.select-erro-relacionado').value = r.erro || '';
-        });
-
-        // Restaura fotos
-        if (Array.isArray(rascunho.fotos) && rascunho.fotos.length > 0) {
-            selectedAuditPhotos = rascunho.fotos;
-            const grid = document.getElementById('photoPreviewGrid');
-            rascunho.fotos.forEach(photo => {
-                const card = document.createElement('div');
-                card.className = 'photo-card';
-                card.dataset.photoId = photo.id;
-                card.innerHTML = `
-                    <div class="photo-img-wrap">
-                        <img src="${photo.src}" alt="Foto Auditoria">
-                        <button type="button" class="remove-btn-photo" onclick="removeAuditPhoto('${photo.id}')">&times;</button>
-                    </div>
-                    <input type="text" class="caption-input" placeholder="Ex: Item 3 / Divergência #1..." value="${(photo.caption || '').replace(/"/g, '&quot;')}" oninput="updatePhotoCaption('${photo.id}', this.value)">
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        calculateLiveScore();
-
-        isRestoringRascunho = false;
-        salvarRascunho(); // consolida um snapshot completo e coerente do estado restaurado
-
-        // Mostra o aviso de que o progresso foi restaurado
-        const banner = document.getElementById('draftBanner');
-        const bannerText = document.getElementById('draftBannerText');
-        let texto = 'Rascunho salvo automaticamente em ' + new Date(rascunho.salvoEm).toLocaleString('pt-BR') + '.';
-        if (rascunho.fotosOmitidas) {
-            texto += ' Obs: as fotos não puderam ser restauradas (espaço de armazenamento do navegador insuficiente) — anexe-as novamente se necessário.';
-        }
-        bannerText.textContent = texto;
-        banner.style.display = 'flex';
-    }
-
-    async function salvarProgressoNaNuvem() {
-        const btn = document.getElementById('btnSalvarNuvem');
-        const statusMsg = document.getElementById('statusNuvemMsg');
-        btn.disabled = true;
-        const textoOriginal = btn.textContent;
-        btn.textContent = '☁ Salvando...';
-        statusMsg.textContent = '';
-
-        try {
-            const rascunho = coletarRascunho();
-            const resposta = await fetch(GOOGLE_SCRIPT_URL + '?action=salvarProgresso', {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(rascunho)
-            });
-            if (!resposta.ok) throw new Error('Resposta não OK do servidor (' + resposta.status + ')');
-            const json = await resposta.json();
-            if (!json || json.status !== 'success') {
-                throw new Error((json && json.message) || 'Resposta inválida do servidor');
-            }
-            statusMsg.style.color = '#16a34a';
-            statusMsg.textContent = 'Progresso salvo na nuvem às ' + new Date(json.salvoEm).toLocaleTimeString('pt-BR') + '. Já pode continuar de qualquer outro aparelho.';
+            openReportWindow(cache.data, cache.scorePct, cache.listDivergencias, cache.listPlanosAcao, cache.listResponsaveis, cache.fotos);
         } catch (err) {
-            console.error(err);
-            statusMsg.style.color = '#dc2626';
-            statusMsg.textContent = 'Não foi possível salvar na nuvem (' + err.message + '). O rascunho continua salvo normalmente neste aparelho.';
-        } finally {
-            btn.disabled = false;
-            btn.textContent = textoOriginal;
+            alert('Não foi possível abrir o relatório: ' + err.message);
         }
     }
 
-    async function carregarListaPendentesNuvem() {
-        const container = document.getElementById('pendentesNuvemContainer');
+    // ===== Envio de cada bloco/auditoria ao backend =====
+
+    async function obterNovoAuditId() {
         try {
-            const resposta = await fetch(GOOGLE_SCRIPT_URL + '?action=listarPendentes');
-            if (!resposta.ok) return;
+            const resposta = await fetch(GOOGLE_SCRIPT_URL + '?action=novoId');
+            if (!resposta.ok) throw new Error('Resposta não OK do servidor');
             const json = await resposta.json();
-            if (!json || json.status !== 'success' || !Array.isArray(json.pendentes) || json.pendentes.length === 0) {
-                container.style.display = 'none';
-                container.innerHTML = '';
-                return;
-            }
-
-            const itens = json.pendentes.map(p => {
-                const salvoEmTexto = p.salvoEm ? new Date(p.salvoEm).toLocaleString('pt-BR') : '-';
-                return `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 10px; border-bottom:1px solid #e2e8f0; gap:8px; flex-wrap:wrap;">
-                    <span><strong>${p.auditId}</strong> — ${p.unidade || '-'} <span style="color:#64748b;">(salvo em ${salvoEmTexto})</span></span>
-                    <button type="button" onclick="continuarPendente('${p.auditId}')" style="padding:4px 10px; font-size:11px; border:none; border-radius:4px; background:#005691; color:#fff; cursor:pointer;">Continuar aqui</button>
-                </div>`;
-            }).join('');
-
-            container.innerHTML = `<div style="background:#fff7ed; border:1px solid #fdba74; border-radius:6px; padding:8px 10px;">
-                <div style="font-weight:bold; font-size:12px; margin-bottom:4px;">☁ Auditorias pendentes salvas na nuvem</div>
-                ${itens}
-            </div>`;
-            container.style.display = 'block';
+            if (!json || json.status !== 'success' || !json.auditId) throw new Error('Resposta inválida do servidor');
+            return json.auditId;
         } catch (err) {
-            console.warn('Não foi possível verificar auditorias pendentes na nuvem.', err);
+            console.warn('Não foi possível obter o ID sequencial do servidor, usando contagem local como reserva.', err);
+            const currentYear = new Date().getFullYear();
+            const currentSeq = getAuditSeq();
+            return `AUD${currentYear}/${String(currentSeq).padStart(4, '0')}`;
         }
     }
 
-    async function continuarPendente(auditId) {
-        try {
-            const resposta = await fetch(GOOGLE_SCRIPT_URL + '?action=carregarPendente&auditId=' + encodeURIComponent(auditId));
-            if (!resposta.ok) throw new Error('Resposta não OK do servidor (' + resposta.status + ')');
-            const json = await resposta.json();
-            if (!json || json.status !== 'success' || !json.rascunho) {
-                // Não encontrada: provavelmente essa auditoria já foi enviada ou descartada
-                // em outro aparelho. Atualiza a lista pra tirar esse item da tela.
-                await carregarListaPendentesNuvem();
-                alert('Essa auditoria não está mais disponível — provavelmente já foi enviada ou descartada em outro aparelho. A lista foi atualizada.');
-                return;
-            }
-            restaurarRascunho(json.rascunho);
-        } catch (err) {
-            alert('Não foi possível continuar essa auditoria: ' + err.message);
-        }
-    }
+    async function enviarBloco(blocoId) {
+        const blocoEl = document.getElementById('bloco-' + blocoId);
+        const state = blocosState[blocoId];
+        const fields = AREAS_CONFIG[areaAtual].questions;
 
-    restaurarRascunho();
-    if (!auditStartTime) {
-        carregarListaPendentesNuvem();
-    }
-
-    // Submissão do Formulário
-    document.getElementById('auditForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        clearInterval(timerInterval);
-
-        const statusMsg = document.getElementById('statusMessage');
-        const btnSubmit = document.getElementById('btnSubmit');
-
-        statusMsg.className = 'status-message loading';
-        statusMsg.textContent = 'Enviando dados...';
-        btnSubmit.disabled = true;
-
-        const formData = new FormData(this);
         const data = {};
-        formData.forEach((value, key) => { data[key] = value; });
-        data.auditorResponsavel = resolverAuditorResponsavel();
+        data.area = areaAtual;
+        data.identificador = document.getElementById('identificador_' + blocoId).value;
+        data.data = document.getElementById('data_' + blocoId).value;
+        data.turno = document.getElementById('turno_' + blocoId).value;
+        data.unidade = document.getElementById('unidade_' + blocoId).value;
+        data.observacoesAuditor = document.getElementById('observacoesAuditor_' + blocoId).value;
+        data.divergencia = (blocoEl.querySelector(`input[name="divergencia_${blocoId}"]:checked`) || {}).value || 'Não';
+        fields.forEach(f => {
+            const el = document.getElementById(f.id + '_' + blocoId);
+            data[f.id] = el ? el.value : '';
+        });
 
-        // Coletar Divergências
         const listDivergencias = [];
         if (data.divergencia === 'Sim') {
-            document.querySelectorAll('.divergencia-row').forEach(row => {
+            blocoEl.querySelectorAll('.divergencia-row').forEach(row => {
                 const responsavel = (row.querySelector('.select-divergencia-responsavel') || {}).value || '';
                 const tipo = (row.querySelector('input[type="radio"]:checked') || {}).value || '';
                 const macro = row.querySelector('.select-macro').value;
@@ -1948,10 +1843,9 @@
         }
         data.listaDivergencias = JSON.stringify(listDivergencias);
 
-        // Coletar Plano de Ação / Sugestão para Correção
         const listPlanosAcao = [];
         if (data.divergencia === 'Sim') {
-            document.querySelectorAll('.plano-acao-row').forEach(row => {
+            blocoEl.querySelectorAll('.plano-acao-row').forEach(row => {
                 const select = row.querySelector('.select-divergencia-ref');
                 const divergenciaRef = select.selectedOptions[0] ? select.selectedOptions[0].textContent : '';
                 const sugestao = row.querySelector('.input-sugestao-correcao').value.trim();
@@ -1962,10 +1856,9 @@
         }
         data.listaPlanosAcao = JSON.stringify(listPlanosAcao);
 
-        // Coletar Responsáveis
         const listResponsaveis = [];
         if (data.divergencia === 'Sim') {
-            document.querySelectorAll('.responsavel-row').forEach(row => {
+            blocoEl.querySelectorAll('.responsavel-row').forEach(row => {
                 const nome = resolverNomeResponsavel(row);
                 const erro = row.querySelector('.select-erro-relacionado').value;
                 if (nome || erro) listResponsaveis.push({ nome, erro });
@@ -1973,130 +1866,160 @@
         }
         data.listaResponsaveis = JSON.stringify(listResponsaveis);
 
-        // Fotos da auditoria
-        data.fotosAuditoria = JSON.stringify(selectedAuditPhotos);
+        data.fotosAuditoria = JSON.stringify(state.fotos);
 
-        // Cálculo do Score
         let totalObtainedWeight = 0, totalMaxWeight = 0;
-        behavioralFields.forEach(field => {
+        fields.forEach(field => {
             const val = data[field.id];
             if (val === 'Sim') { totalObtainedWeight += field.weight; totalMaxWeight += field.weight; }
             else if (val === 'Não') { totalMaxWeight += field.weight; }
         });
-
-        // Penalidade geral por divergência (Peso 4 cada) — toda divergência com responsável
-        // identificado penaliza o Score Geral, independente de quem foi o responsável.
         const divergenciasComResponsavel = listDivergencias.filter(d => d.responsavel);
         totalMaxWeight += divergenciasComResponsavel.length * PESO_PENALIDADE_DIVERGENCIA;
-
-        // Se todos os itens foram marcados "N/A", não há base para calcular um score —
-        // mostrar "100%" nesse caso passaria a falsa impressão de auditoria perfeita.
-        let scorePct = totalMaxWeight > 0 ? Math.round((totalObtainedWeight / totalMaxWeight) * 100) : null;
+        const scorePct = totalMaxWeight > 0 ? Math.round((totalObtainedWeight / totalMaxWeight) * 100) : null;
         data.scoreComportamentalPct = scorePct !== null ? scorePct + '%' : 'N/A (todos os itens marcados como não aplicável)';
 
-        try {
-            openReportWindow(data, scorePct, listDivergencias, listPlanosAcao, listResponsaveis, selectedAuditPhotos);
-        } catch (err) {
-            console.error(err);
-            alert('Não foi possível gerar o relatório em PDF automaticamente, mas os dados da auditoria estão sendo enviados normalmente.');
-        }
+        data.auditId = await obterNovoAuditId();
+        data.horaInicio = new Date(state.criadoEm).toLocaleTimeString('pt-BR');
+        const diffMs = new Date() - new Date(state.criadoEm);
+        const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
+        data.tempoTotal = [
+            String(Math.floor(totalSeconds / 3600)).padStart(2, '0'),
+            String(Math.floor((totalSeconds / 60) % 60)).padStart(2, '0'),
+            String(totalSeconds % 60).padStart(2, '0')
+        ].join(':');
 
-        // Envio SEM 'mode: no-cors' — isso permite ler a resposta real do Apps Script
-        // (sucesso ou erro) em vez de assumir sucesso sempre. Content-Type text/plain
-        // continua sendo usado de propósito: evita o preflight OPTIONS, que o Apps
-        // Script não trata bem, sem precisar do modo opaco que escondia falhas.
-        fetch(GOOGLE_SCRIPT_URL, {
+        reportDataCache[blocoId] = {
+            data: Object.assign({}, data),
+            scorePct,
+            listDivergencias,
+            listPlanosAcao,
+            listResponsaveis,
+            fotos: state.fotos.slice()
+        };
+
+        const resposta = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(data)
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`O servidor respondeu com status ${response.status}.`);
-            }
-            return response.text().catch(() => '');
-        })
-        .then((responseText) => {
-            // Alguns retornos de Apps Script trazem um JSON com {"status":"error", ...}
-            // mesmo com HTTP 200 — tenta detectar esse caso antes de confirmar sucesso.
-            let linkPdfRecebido = '';
-            try {
-                const parsed = JSON.parse(responseText);
-                if (parsed && (parsed.status === 'error' || parsed.success === false)) {
-                    throw new Error(parsed.message || 'O servidor reportou uma falha ao salvar os dados.');
-                }
-                if (parsed && parsed.linkPdf) {
-                    linkPdfRecebido = parsed.linkPdf;
-                }
-            } catch (jsonErr) {
-                // Resposta não é JSON (ex: texto simples "OK") — segue normalmente como sucesso
-                if (jsonErr instanceof SyntaxError) {
-                    // ignora — não é um erro de verdade, só não veio em formato JSON
-                } else {
-                    throw jsonErr;
-                }
-            }
-
-            // Incrementar Sequência de Auditoria — só acontece após confirmação real de sucesso
-            incrementAuditSeq();
-
-            statusMsg.className = 'status-message success';
-            statusMsg.textContent = `Auditoria enviada com sucesso! ID: ${data.auditId} | Tempo: ${data.tempoTotal}`;
-
-            // Auditoria concluída: some o botão de salvar progresso na nuvem (não há mais o que continuar)
-            document.getElementById('btnSalvarNuvem').style.display = 'none';
-            document.getElementById('statusNuvemMsg').textContent = '';
-
-            // Botão para compartilhar o relatório por WhatsApp (se o PDF foi gerado com sucesso)
-            const whatsappContainer = document.getElementById('whatsappShareContainer');
-            if (linkPdfRecebido) {
-                const mensagem = `Relatório de Auditoria ${data.auditId}\nUnidade: ${data.unidade || '-'} | Score: ${data.scoreComportamentalPct || '-'}\nPDF: ${linkPdfRecebido}`;
-                const urlWhatsapp = 'https://wa.me/?text=' + encodeURIComponent(mensagem);
-                whatsappContainer.innerHTML = `<a href="${urlWhatsapp}" target="_blank" rel="noopener" style="display:inline-block; background:#25D366; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none; font-weight:bold;">Enviar por WhatsApp</a>`;
-            } else {
-                whatsappContainer.innerHTML = '';
-            }
-
-            document.getElementById('auditForm').reset();
-            document.getElementById('divergenciasContainer').innerHTML = '';
-            document.getElementById('planosAcaoContainer').innerHTML = '';
-            document.getElementById('responsaveisContainer').innerHTML = '';
-            document.getElementById('photoPreviewGrid').innerHTML = '';
-            divIdCounter = 0;
-            selectedAuditPhotos = [];
-            auditStartTime = null;
-            document.getElementById('secaoDivergenciasCompleta').style.display = 'none';
-            document.getElementById('data').valueAsDate = new Date();
-            calculateLiveScore();
-
-            // Apaga o rascunho salvo — essa auditoria já foi enviada, não há mais o que restaurar
-            if (storageAvailable) {
-                try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch (e) { /* ignora */ }
-            }
-            document.getElementById('draftBanner').style.display = 'none';
-
-            // Resetar Botão e Desabilitar Form para a Próxima
-            document.getElementById('auditFields').disabled = true;
-            document.getElementById('auditIdDisplay').textContent = '---';
-            document.getElementById('timerDisplay').textContent = '00:00:00';
-            
-            const btnStart = document.getElementById('btnStartAudit');
-            btnStart.disabled = false;
-            btnStart.textContent = '▶ Iniciar Auditoria';
-            btnStart.style.backgroundColor = 'var(--success-color)';
-            
-            btnSubmit.disabled = false;
-        })
-        .catch(error => {
-            console.error(error);
-            statusMsg.className = 'status-message error';
-            statusMsg.textContent = `Não foi possível confirmar o envio (${error.message}). Os dados NÃO foram enviados — o rascunho desta auditoria continua salvo neste dispositivo, tente enviar novamente.`;
-            document.getElementById('whatsappShareContainer').innerHTML = '';
-            btnSubmit.disabled = false;
-            // Propositalmente NÃO reseta o formulário nem apaga o rascunho aqui,
-            // já que não há confirmação de que os dados chegaram ao servidor.
         });
-    });
+        if (!resposta.ok) throw new Error(`O servidor respondeu com status ${resposta.status}.`);
+        const responseText = await resposta.text().catch(() => '');
+        try {
+            const parsed = JSON.parse(responseText);
+            if (parsed && (parsed.status === 'error' || parsed.success === false)) {
+                throw new Error(parsed.message || 'O servidor reportou uma falha ao salvar os dados.');
+            }
+        } catch (jsonErr) {
+            if (!(jsonErr instanceof SyntaxError)) throw jsonErr;
+        }
+
+        incrementAuditSeq();
+        return { scoreTexto: data.scoreComportamentalPct, identificador: data.identificador || data.auditId };
+    }
+
+    async function finalizarPlano() {
+        const blocoEls = Array.from(document.querySelectorAll('.bloco-auditoria'));
+        if (blocoEls.length === 0) {
+            alert('Adicione ao menos uma auditoria antes de finalizar o plano.');
+            return;
+        }
+
+        for (const el of blocoEls) {
+            const invalido = el.querySelector(':invalid');
+            if (invalido) {
+                invalido.reportValidity();
+                invalido.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+        }
+
+        const btn = document.getElementById('btnFinalizarPlano');
+        const statusMsg = document.getElementById('statusMessage');
+        btn.disabled = true;
+        statusMsg.className = 'status-message loading';
+        statusMsg.textContent = `Enviando ${blocoEls.length} auditoria(s)...`;
+
+        const resultados = [];
+        for (const el of blocoEls) {
+            const blocoId = Number(el.dataset.blocoId);
+            try {
+                const resultado = await enviarBloco(blocoId);
+                resultados.push({ ok: true, blocoId, ...resultado });
+            } catch (err) {
+                console.error(err);
+                resultados.push({ ok: false, blocoId, erro: err.message, identificador: (document.getElementById('identificador_' + blocoId) || {}).value });
+            }
+        }
+
+        const sucesso = resultados.filter(r => r.ok);
+        const falhas = resultados.filter(r => !r.ok);
+
+        // Gera automaticamente o PDF com todas as auditorias enviadas com sucesso
+        // (cada uma em sua página, prontas para salvar/imprimir de uma vez).
+        if (sucesso.length > 0) {
+            try {
+                openCombinedReportWindow(sucesso.map(r => reportDataCache[r.blocoId]));
+            } catch (err) {
+                console.error(err);
+                alert('Não foi possível gerar o PDF automaticamente, mas os dados já foram enviados normalmente. Use os botões "Ver relatório" abaixo para gerar individualmente.');
+            }
+        }
+
+        sucesso.forEach(r => {
+            const el = document.getElementById('bloco-' + r.blocoId);
+            if (el) el.remove();
+        });
+        renumerarBlocos();
+
+        if (falhas.length === 0) {
+            statusMsg.className = 'status-message success';
+            statusMsg.textContent = `${sucesso.length} auditoria(s) enviada(s) com sucesso!`;
+            document.getElementById('btnAdicionarBloco').textContent = '▶ Iniciar Auditoria';
+            document.getElementById('finalizarWrapper').style.display = 'none';
+            sucesso.forEach(r => delete blocosState[r.blocoId]);
+            if (storageAvailable) {
+                try { localStorage.removeItem(DRAFT_STORAGE_KEY + '_' + areaAtual); } catch (e) { /* ignora */ }
+            }
+        } else {
+            statusMsg.className = 'status-message error';
+            statusMsg.textContent = `${sucesso.length} enviada(s) com sucesso, ${falhas.length} falharam. As que falharam continuam no plano — corrija e tente novamente.`;
+            sucesso.forEach(r => delete blocosState[r.blocoId]);
+            salvarRascunho();
+        }
+
+        const container = document.getElementById('resultadosPlanoContainer');
+        container.innerHTML =
+            (sucesso.length > 1 ? `
+                <div style="margin-bottom:12px;">
+                    <button type="button" onclick='reabrirRelatorioUnificado(${JSON.stringify(sucesso.map(r => r.blocoId))})' style="padding:8px 16px; font-size:13px; font-weight:600; border:none; border-radius:6px; background:#003865; color:#fff; cursor:pointer;">📄 Ver relatório unificado (todas as ${sucesso.length} auditorias)</button>
+                </div>
+            ` : '') +
+            sucesso.map(r => `
+                <div style="margin-bottom:6px;">
+                    ✅ <strong>${r.identificador || ('Auditoria ' + r.blocoId)}</strong> — Score: ${r.scoreTexto || '-'}
+                    <button type="button" onclick="reabrirRelatorio(${r.blocoId})" style="margin-left:8px; padding:4px 10px; font-size:11px; border:none; border-radius:4px; background:#005691; color:#fff; cursor:pointer;">Ver relatório</button>
+                </div>
+            `).join('') +
+            falhas.map(r => `<div style="color:#dc2626; margin-bottom:6px;">❌ ${r.identificador || ('Auditoria ' + r.blocoId)}: ${r.erro}</div>`).join('');
+
+        btn.disabled = false;
+    }
+
+    // Reabre o relatório unificado (todas as auditorias informadas, cada uma em sua página)
+    // a partir dos dados já em cache — usado pelo botão "Ver relatório unificado".
+    function reabrirRelatorioUnificado(blocoIds) {
+        const caches = blocoIds.map(id => reportDataCache[id]).filter(Boolean);
+        if (caches.length === 0) {
+            alert('Esses relatórios não estão mais disponíveis nesta sessão.');
+            return;
+        }
+        try {
+            openCombinedReportWindow(caches);
+        } catch (err) {
+            alert('Não foi possível abrir o relatório unificado: ' + err.message);
+        }
+    }
 </script>
 
 </body>
